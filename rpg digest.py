@@ -1,0 +1,1 @@
+rpg -i AT1G67120.fasta -o AT1G67120_rpg.fasta -e 42 15 16 28 29 2 1
