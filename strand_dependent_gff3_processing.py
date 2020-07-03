@@ -152,7 +152,7 @@ for index, (count, start) in enumerate(zip(posstrand_cdsdf.my_count, posstrand_c
     else:
         first_start_list.append(first_start)
 posstrand_cdsdf['cds_first_start'] = first_start_list
-posstrand_cdsdf['new_start'] = posstrand_cdsdf['start'] - posstrand_cdsdf['cds_first_start'] - posstrand_cdsdf['cum_intron']
+posstrand_cdsdf['new_start'] = posstrand_cdsdf['start'] - posstrand_cdsdf['cds_first_start'] - posstrand_cdsdf['cum_intron']+1
 posstrand_cdsdf['new_end'] = posstrand_cdsdf['end'] - posstrand_cdsdf['cds_first_start'] - posstrand_cdsdf['cum_intron']+1
 
 first_end_list = []
@@ -164,7 +164,7 @@ for index, (count, end) in enumerate(zip(negstrand_cdsdf.my_count, negstrand_cds
         first_end_list.append(first_end)
 negstrand_cdsdf['cds_first_end'] = first_end_list
 negstrand_cdsdf['new_start'] = abs(negstrand_cdsdf['start'] - negstrand_cdsdf['cds_first_end'] + negstrand_cdsdf['cum_intron'])+1
-negstrand_cdsdf['new_end'] = abs(negstrand_cdsdf['end'] - negstrand_cdsdf['cds_first_end'] + negstrand_cdsdf['cum_intron'])
+negstrand_cdsdf['new_end'] = abs(negstrand_cdsdf['end'] - negstrand_cdsdf['cds_first_end'] + negstrand_cdsdf['cum_intron'])+1
 
 # POSITIONS ON THE AMINO ACID SEQUENCE
 # for the start sites
