@@ -135,3 +135,5 @@ summary_table['mean length'] = coverage_summary_table['protein length']/summary_
 
 #changing the column orders so that mena length is after total no. of unfiltered pepts
 summary_table = summary_table[['enzyme', 'total peptides', 'mean length', 'filtered peptides', 'coverage']]
+
+summary_table.to_csv('summary_table.csv')

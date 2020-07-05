@@ -1,6 +1,7 @@
 import pandas as pd
 
-input_name = 'chr5'
+input_name = 'chr5_42_15_28'
+chromosome = 'chr5'
 
 #POSITIVE STRAND
 junctions_file = pd.read_csv(input_name+'_+_junction_spanning.csv')
@@ -42,10 +43,10 @@ junctions = []
 for introns in newlist:
     junctions.append(len(set(introns)))
 
-junction_statistics['unique junctions_covered'] = junctions
+junction_statistics['unique_junctions_covered'] = junctions
 
 #Real number of exon-exon junctions in the proteins being examined
-posstrand_cdsdf = pd.read_csv(input_name+'_+_cdsdf.csv')
+posstrand_cdsdf = pd.read_csv(chromosome+'_+_cdsdf.csv')
 posstrand_cdsdf = posstrand_cdsdf[posstrand_cdsdf.intron_id != 'na']
 
 #print('there are a total of', len(set(cdsdf['intron_id'])),
@@ -53,7 +54,7 @@ posstrand_cdsdf = posstrand_cdsdf[posstrand_cdsdf.intron_id != 'na']
 
 #Adding column for % of junctions covered, out of the available
 # junctions in the proteins
-junction_statistics['junction_coverage'] = junction_statistics['junctions_covered']/(len(set(posstrand_cdsdf['intron_id']))) *100
+junction_statistics['junction_coverage'] = junction_statistics['unique_junctions_covered']/(len(set(posstrand_cdsdf['intron_id']))) *100
 junction_statistics.to_csv(input_name+'_+_junctiosn_statistics.csv')
 
 # NEGATIVE STRAND
@@ -96,10 +97,10 @@ junctions = []
 for introns in newlist:
     junctions.append(len(set(introns)))
 
-junction_statistics['junctions_covered'] = junctions
+junction_statistics['unique_junctions_covered'] = junctions
 
 #Real number of exon-exon junctions in the proteins being examined
-negstrand_cdsdf = pd.read_csv(input_name+'_-_cdsdf.csv')
+negstrand_cdsdf = pd.read_csv(chromosome+'_-_cdsdf.csv')
 negstrand_cdsdf = negstrand_cdsdf[negstrand_cdsdf.intron_id != 'na']
 
 #print('there are a total of', len(set(cdsdf['intron_id'])),
@@ -107,5 +108,5 @@ negstrand_cdsdf = negstrand_cdsdf[negstrand_cdsdf.intron_id != 'na']
 
 #Adding column for % of junctions covered, out of the available
 # junctions in the proteins
-junction_statistics['junction_coverage'] = junction_statistics['junctions_covered']/(len(set(negstrand_cdsdf['intron_id']))) *100
+junction_statistics['junction_coverage'] = junction_statistics['unique_junctions_covered']/(len(set(negstrand_cdsdf['intron_id']))) *100
 junction_statistics.to_csv(input_name+'_-_junction_statistics.csv')
