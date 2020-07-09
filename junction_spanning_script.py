@@ -7,15 +7,34 @@ posstrand_cdsdf = pd.read_csv(input_name + '_+_cdsdf.csv')
 negstrand_cdsdf = pd.read_csv(input_name + '_-_cdsdf.csv')
 # default rpg file here is the filtered one. Can change 'filtered_rpg' to 'og_rpg
 
+
 # POSITIVE STRAND
 filtered_rpg = pd.read_csv(input_name + '_fwd_rpg_filtered.csv')  # read in the rpg output file
 
 dict_df = pd.DataFrame()
 dict_df['Isoform'] = posstrand_cdsdf['Parent']
 dict_df['intron_id'] = posstrand_cdsdf['intron_id']
+dict_df = dict_df[dict_df.intron_id != 'na']
+
+# column for junction type
+dict_df['new_start'] = posstrand_cdsdf['new_start']
+starts = dict_df['new_start']
+dict_df = dict_df.drop('new_start', axis=1)
+startslist_dna = starts.tolist()
+junct_type = []
+for position in startslist_dna:
+    if position % 3 == 0:
+        junct_type.append(2)
+    if position % 3 == 1:
+        junct_type.append(0)
+    if position % 3 == 2:
+        junct_type.append(1)
+dict_df['junction_type'] = junct_type
+
+# choose a junction type, set to zero but
+dict_df = dict_df.drop['junction_type']  # removed as not using it atm
 dict_df['junction'] = posstrand_cdsdf['protein_start'] - 0.5
 
-dict_df = dict_df[dict_df.intron_id != 'na']
 dict_df = dict_df.set_index(['Isoform', 'junction'])
 
 junctions_dict = dict_df.to_dict('index')

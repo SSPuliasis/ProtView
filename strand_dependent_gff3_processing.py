@@ -211,7 +211,7 @@ for position in endslist_dna:
         endslist_protein.append(position)
 posstrand_cdsdf['protein_end'] = endslist_protein
 posstrand_cdsdf['protein_end'] = posstrand_cdsdf['protein_end'].astype(int)
-posstrand_cdsdf = posstrand_cdsdf.drop('new_start', axis=1)  # remove columns that aren't necessary anymore
+#posstrand_cdsdf = posstrand_cdsdf.drop('new_start', axis=1)  # remove columns that aren't necessary anymore
 posstrand_cdsdf = posstrand_cdsdf.drop('new_end', axis=1)
 
 ends = negstrand_cdsdf['new_end']
