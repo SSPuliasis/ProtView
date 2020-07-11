@@ -82,4 +82,4 @@ for xsome in chromosome:
     # Adding column for % of junctions covered, out of the available
     # junctions in the proteins
     overall_df['total_junction_coverage'] = overall_df['junction_spanning_peptides'] / (intron_no) * 100
-    junction_statistics.to_csv('junction_statistics.csv')
+    overall_df.to_csv('junction_statistics.csv')
