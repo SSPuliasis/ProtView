@@ -2,14 +2,24 @@ import pandas as pd
 from Bio import SeqIO
 
 # enter the names of all of the input files as lists
-unfiltered_rpg_files = ["at1g6600_at1g6610_fwd_rpg_unfiltered.csv"]
-filtered_rpg_files = ['test1.csv']
-fasta_files = ['at1g6600_at1g6610_fwd.fasta']
+unfiltered_rpg_files = ["chr1_fwd_rpg_unfiltered.csv", "chr2_fwd_rpg_unfiltered.csv",
+                        "chr3_fwd_rpg_unfiltered.csv", "chr4_fwd_rpg_unfiltered.csv",
+                        "chr5_fwd_rpg_unfiltered.csv",
+                        "chr1_rev_rpg_unfiltered.csv", "chr2_rev_rpg_unfiltered.csv",
+                        "chr3_rev_rpg_unfiltered.csv", "chr4_rev_rpg_unfiltered.csv",
+                        "chr5_rev_rpg_unfiltered.csv"]
+filtered_rpg_files = ['chr1_fwd_rpg_filtered_len_cysteine.csv', 'chr2_fwd_rpg_filtered_len_cysteine.csv',
+                      'chr3_fwd_rpg_filtered_len_cysteine.csv', 'chr4_fwd_rpg_filtered_len_cysteine.csv',
+                      'chr5_fwd_rpg_filtered_len_cysteine.csv',
+                      'chr1_rev_rpg_filtered_len_cysteine.csv', 'chr2_rev_rpg_filtered_len_cysteine.csv',
+                      'chr3_rev_rpg_filtered_len_cysteine.csv', 'chr4_rev_rpg_filtered_len_cysteine.csv',
+                      'chr5_rev_rpg_filtered_len_cysteine.csv']
+fasta_files = ['chr1_fwd.fasta', 'chr2_fwd.fasta', 'chr3_fwd.fasta', 'chr4_fwd.fasta', 'chr5_fwd.fasta',
+               'chr1_rev.fasta', 'chr2_rev.fasta', 'chr3_rev.fasta', 'chr4_rev.fasta', 'chr5_rev.fasta']
 
 
 # creating the summary table
-def create_summary_table():
-    global summary_table
+def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, output_name):
     summary_table = pd.DataFrame()
 
     # TOTAL PEPTIDES GENERATED
@@ -19,6 +29,7 @@ def create_summary_table():
     for name in unfiltered_rpg_files:
         inputfile = pd.read_csv(name)
         x = inputfile['enzyme'].tolist()
+        print(name)
         for enzyme in set(x):
             testname.append(name)
             testenzyme.append(enzyme)
@@ -66,6 +77,7 @@ def create_summary_table():
     for name in filtered_rpg_files:
         inputfile = pd.read_csv(name)
         x = inputfile['enzyme'].tolist()
+        print(name)
         for enzyme in set(x):
             testname.append(name)
             testenzyme.append(enzyme)
@@ -104,8 +116,11 @@ def create_summary_table():
     coverage_table = pd.DataFrame(columns=['input file', 'enzyme', 'peptide length', 'protein length', 'coverage'])
     temp_table = pd.DataFrame(columns=['input file', 'enzyme', 'peptide length', 'protein length'])
 
+    protein_len_sum = 0
     for name in fasta_files:
         sizes = [len(rec) for rec in SeqIO.parse(name, "fasta")]
+        print(name, sum(sizes))
+        protein_len_sum += sum(sizes)
 
     for name in filtered_rpg_files:
         rpg_file = pd.read_csv(name)
@@ -114,7 +129,7 @@ def create_summary_table():
         enzymes = a['enzyme'].tolist()
         temp_table['peptide length'] = pep_len
         temp_table['enzyme'] = enzymes
-        temp_table['protein length'] = sum(sizes)
+        temp_table['protein length'] = protein_len_sum
         temp_table['input file'] = name
         coverage_table = coverage_table.append(temp_table, sort=True)
     coverage_table['coverage'] = (coverage_table['peptide length'] / coverage_table['protein length']) * 100
@@ -134,4 +149,4 @@ def create_summary_table():
     # changing the column orders so that mena length is after total no. of unfiltered pepts
     summary_table = summary_table[['enzyme', 'total peptides', 'mean length', 'filtered peptides', 'coverage']]
 
-    summary_table.to_csv('summary_table.csv')
+    summary_table.to_csv(output_name)
