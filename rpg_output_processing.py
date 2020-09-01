@@ -61,9 +61,7 @@ def filter_by_length(min_len, max_len, input_file, output_file):
 def filter_for_residue(residue, input_file, output_file):
     unfiltered_rpg = pd.read_csv(input_file)
     filtered_rpg = pd.DataFrame()
-    for index, row in unfiltered_rpg.iterrows():
-        if residue in row['sequence']:
-            filtered_rpg = filtered_rpg.append(row)
+    filtered_rpg = unfiltered_rpg[unfiltered_rpg['sequence'].str.contains(residue)]
     filtered_rpg.to_csv(output_file)
 
 
