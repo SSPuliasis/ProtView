@@ -48,6 +48,18 @@ def process_rpg_output(input_name):
     # Can now remove the rpg output that is in fasta format (not a table)
     os.remove(input_name + '.fasta')
 
+# combining digests in parallel
+def create_parallel_digest(input_file, output_file, *enzymes):
+    filein = pd.read_csv(input_file)
+    parallel_df = pd.DataFrame()
+    newname= ""
+    for protease_name in list(enzymes):
+        parallel_df = parallel_df.append(filein.loc[(filein.enzyme == protease_name)])
+        newname +=(':'+protease_name)
+        parallel_enzymes = newname[1:]
+    parallel_df['enzyme'] = parallel_enzymes
+    parallel_df.to_csv(output_file)
+    print('The parallel enzyme combination for '+parallel_enzymes+' has been saved as '+output_file)
 
 # FILTERING BY LENGTH
 def filter_by_length(min_len, max_len, input_file, output_file):
