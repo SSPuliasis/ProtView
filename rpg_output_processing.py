@@ -83,3 +83,4 @@ process_rpg_output('at1g6600_at1g6610_fwd_rpg')
 filter_by_length(7, 35, 'at1g6600_a1g6610_fwd_rpg_unfiltered.csv', 'at1g6600_at1g6610_fwd_rpg_filtered_len.csv')
 filter_for_residue('C', 'at1g6600_at1g6610_fwd_rpg_filtered_len.csv',
                    'at1g6600_at1g6610_fwd_rpg_filtered_len_cysteine.csv')
+create_parallel_digest('at1g6600_at1g6610_rev_rpg_filtered.csv', 'tryp:lysc_rev_rpg_filtered.csv', 'Trypsin', 'Lys-C')
