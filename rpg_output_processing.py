@@ -76,6 +76,24 @@ def filter_for_residue(residue, input_file, output_file):
     filtered_rpg = unfiltered_rpg[unfiltered_rpg['sequence'].str.contains(residue)]
     filtered_rpg.to_csv(output_file)
 
+def merge_files(output_file_name, *input_file_names):
+    with open(output_file_name, "wb") as ouput:
+        with open(input_file_names[0], "rb") as file:
+            shutil.copyfileobj(file, ouput)
+        if len(input_file_names[1:]) > 1:
+           for name in input_file_names[1:]:
+               with open(name, "rb") as file:
+                   file.readline()
+                   shutil.copyfileobj(file, ouput)
+        elif len(input_file_names[1:]) == 1:
+            name = ''.join(input_file_names[1:])
+            print(name)
+            print(type(name))
+            with open(name, "rb") as file:
+                file.readline()
+                shutil.copyfileobj(file, ouput)
+    print("The files have been merged")
+
 
 # EXAMPLE
 # name of the rpg output file to be processed in '' without .fasta at the end
