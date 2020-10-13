@@ -67,7 +67,6 @@ def filter_by_length(min_len, max_len, input_file, output_file):
     filtered_rpg = unfiltered_rpg[(unfiltered_rpg.peptide_size <= max_len) & (unfiltered_rpg.peptide_size >= min_len)]
     filtered_rpg.to_csv(output_file)
 
-
 # Filter peptides in the processed RPG output format (CSV) for peptides containing
 # certain amino acids
 def filter_for_residue(residue, input_file, output_file):
@@ -76,6 +75,7 @@ def filter_for_residue(residue, input_file, output_file):
     filtered_rpg = unfiltered_rpg[unfiltered_rpg['sequence'].str.contains(residue)]
     filtered_rpg.to_csv(output_file)
 
+# merge rpg outputs into one file
 def merge_files(output_file_name, *input_file_names):
     with open(output_file_name, "wb") as ouput:
         with open(input_file_names[0], "rb") as file:
@@ -93,7 +93,6 @@ def merge_files(output_file_name, *input_file_names):
                 file.readline()
                 shutil.copyfileobj(file, ouput)
     print("The files have been merged")
-
 
 # EXAMPLE
 # name of the rpg output file to be processed in '' without .fasta at the end
