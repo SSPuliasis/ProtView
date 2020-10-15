@@ -113,8 +113,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     ###
 
     # PROTEIN SEQUENCE COVERAGE
-    coverage_table = pd.DataFrame(columns=['input file', 'enzyme', 'peptide length', 'protein length', 'coverage'])
-    temp_table = pd.DataFrame(columns=['input file', 'enzyme', 'peptide length', 'protein length'])
+    coverage_table = pd.DataFrame()
 
     protein_len_sum = 0
     for name in fasta_files:
@@ -124,20 +123,47 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 
     for name in filtered_rpg_files:
         rpg_file = pd.read_csv(name)
-        a = pd.DataFrame(rpg_file.groupby(['enzyme'], as_index=False)['peptide_size'].sum())
-        pep_len = a['peptide_size'].tolist()
-        enzymes = a['enzyme'].tolist()
-        temp_table['peptide length'] = pep_len
-        temp_table['enzyme'] = enzymes
-        temp_table['protein length'] = protein_len_sum
-        temp_table['input file'] = name
-        coverage_table = coverage_table.append(temp_table, sort=True)
-    coverage_table['coverage'] = (coverage_table['peptide length'] / coverage_table['protein length']) * 100
-    coverage_summary_table = pd.DataFrame(coverage_table.groupby(['enzyme'], as_index=False)['peptide length'].sum())
-    total_protein_length = sum(set(coverage_table['protein length'].tolist()))
-    coverage_summary_table['protein length'] = total_protein_length
-    coverage_summary_table['coverage'] = (coverage_summary_table['peptide length'] / coverage_summary_table[
-        'protein length']) * 100
+        rpg_file = rpg_file.sort_values(['parent', 'enzyme', 'peptide_start'])
+        newdf = pd.DataFrame()
+
+        for protein in set(rpg_file.parent):
+            protein_df = pd.DataFrame()
+            protein_df = rpg_file.loc[(rpg_file.parent == protein)]
+            protein_df = protein_df.rename(columns={'cleavage_position': 'end', 'peptide_start': 'start'})
+
+            for enzyme in set(protein_df.enzyme):
+                enzyme_df = protein_df.loc[(protein_df.enzyme == enzyme)]
+                mlist = []
+                minval = -10000
+                maxval = -100000
+                enzyme_df['covered_regions'] = enzyme_df[['start', 'end']].values.tolist()
+                arraylist = enzyme_df['covered_regions'].tolist()
+                for i in range(len(arraylist)):
+                    a = arraylist[i]
+                    if a[0] > maxval:
+                        if i != 0:
+                            mlist.append([minval, maxval])
+                        maxval = a[1]
+                        minval = a[0]
+                    else:
+                        if a[1] >= maxval:
+                            maxval = a[1]
+                if maxval != -100000 and [minval, maxval] not in mlist:
+                    mlist.append([minval, maxval])
+                temp_table = pd.DataFrame()
+                temp_table['covered_regions'] = mlist
+                temp_table['protein'] = protein
+                temp_table['enzyme'] = enzyme
+                temp_table['input_file'] = name
+                temp_table[['start', 'end']] = pd.DataFrame(temp_table.covered_regions.tolist(), index=temp_table.index)
+                temp_table['peptide_length'] = temp_table['end'] - temp_table['start'] + 1
+                temp_table = temp_table.drop(['start', 'end'], axis=1)
+                coverage_table = coverage_table.append(temp_table, sort=True)
+    coverage_summary_table = pd.DataFrame(coverage_table.groupby(['enzyme'], as_index=False)['peptide_length'].sum())
+    total_protein_length = protein_len_sum
+    coverage_summary_table['protein_length'] = total_protein_length
+    coverage_summary_table['coverage'] = (coverage_summary_table['peptide_length'] / coverage_summary_table[
+        'protein_length']) * 100
     # write.csv(coverage_summary_table, 'coverage_summary_table.csv')
 
     summary_table['coverage'] = coverage_summary_table['coverage']
