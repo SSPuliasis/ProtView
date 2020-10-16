@@ -124,16 +124,14 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     for name in filtered_rpg_files:
         rpg_file = pd.read_csv(name)
         rpg_file = rpg_file.sort_values(['parent', 'enzyme', 'peptide_start'])
-        newdf = pd.DataFrame()
 
         for protein in set(rpg_file.parent):
-            protein_df = pd.DataFrame()
             protein_df = rpg_file.loc[(rpg_file.parent == protein)]
             protein_df = protein_df.rename(columns={'cleavage_position': 'end', 'peptide_start': 'start'})
 
             for enzyme in set(protein_df.enzyme):
                 enzyme_df = protein_df.loc[(protein_df.enzyme == enzyme)]
-                mlist = []
+                covered_regions_list = []
                 minval = -10000
                 maxval = -100000
                 enzyme_df['covered_regions'] = enzyme_df[['start', 'end']].values.tolist()
@@ -142,16 +140,16 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
                     a = arraylist[i]
                     if a[0] > maxval:
                         if i != 0:
-                            mlist.append([minval, maxval])
+                            covered_regions_list.append([minval, maxval])
                         maxval = a[1]
                         minval = a[0]
                     else:
                         if a[1] >= maxval:
                             maxval = a[1]
-                if maxval != -100000 and [minval, maxval] not in mlist:
-                    mlist.append([minval, maxval])
+                if maxval != -100000 and [minval, maxval] not in covered_regions_list:
+                    covered_regions_list.append([minval, maxval])
                 temp_table = pd.DataFrame()
-                temp_table['covered_regions'] = mlist
+                temp_table['covered_regions'] = covered_regions_list
                 temp_table['protein'] = protein
                 temp_table['enzyme'] = enzyme
                 temp_table['input_file'] = name
@@ -169,7 +167,15 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     summary_table['coverage'] = coverage_summary_table['coverage']
 
     # MEAN PEPTIDE LENGTHS
-    summary_table['mean length'] = coverage_summary_table['protein length'] / summary_table['total peptides']
+    digest_count = []
+    for enzyme in coverage_summary_table['enzyme']:
+        digests_combined = enzyme.count(':') + 1
+        digest_count.append(digests_combined)
+
+    coverage_summary_table['combined_digests'] = digest_count
+
+    summary_table['mean length'] = (coverage_summary_table['protein_length'] * coverage_summary_table[
+        'combined_digests']) / summary_table['total peptides']
     # summary_table
 
     # changing the column orders so that mena length is after total no. of unfiltered pepts

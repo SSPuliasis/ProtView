@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import shutil
 
 # takes the raw rpg results as input, withoug '.fasta' extension in the name
 def process_rpg_output(input_name):
