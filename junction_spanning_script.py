@@ -4,6 +4,8 @@ def junction_spanning(cds_file, rpg_file, strand, output_file_name):
     # POSITIVE STRAND
     if strand == '+':
         posstrand_cdsdf = pd.read_csv(cds_file)
+        negstrand_cdsdf = posstrand_cds = negstrand_cdsdf[negstrand_cdsdf['protein_start'] < negstrand_cdsdf[
+            'protein_end']]  # remove small CDSs (<3AA) that end up with start >=end
         processed_rpg = pd.read_csv(rpg_file)  # read in the rpg output file
 
         dict_df = pd.DataFrame()
@@ -40,6 +42,8 @@ def junction_spanning(cds_file, rpg_file, strand, output_file_name):
     # NEGATIVE STRAND
     elif strand == '-':
         negstrand_cdsdf = pd.read_csv(cds_file)
+        negstrand_cdsdf = posstrand_cds = negstrand_cdsdf[negstrand_cdsdf['protein_start']<negstrand_cdsdf[
+            'protein_end']] #remove small CDSs (<3AA) that end up with start >=end
         processed_rpg = pd.read_csv(rpg_file)  # read in the rpg output file
 
         dict_df = pd.DataFrame()
