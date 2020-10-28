@@ -183,7 +183,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 
     summary_table.to_csv(output_name)
 
-##### WITH RESIDUE FILTERING
+##### WITH RESIDUE FILTERING - doesn't work yet for parallel combinations
 # FILTERED RPG FILES ABOVE NEED TO HAVE BEEN FILTERED FOR RESIDUE FOR THIS TO WORK
 # COUNTING FREQ OF RESIDUES IN THE SEQUENCES
 residue_freq_in_seq = 0
