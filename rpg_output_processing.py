@@ -52,6 +52,8 @@ def process_rpg_output(input_name):
 # combining digests in parallel
 def create_parallel_digest(input_file, output_file, *enzymes):
     filein = pd.read_csv(input_file)
+    filein = filein.drop('Unnamed: 0', axis = 1) # does this need to be removed earlier in rpg output processing?
+    filein = filein.drop('sequential_number', axis = 1) #because duplicate peptides may  not have same sequential no.
     parallel_df = pd.DataFrame()
     newname= ""
     for protease_name in list(enzymes):
@@ -59,6 +61,7 @@ def create_parallel_digest(input_file, output_file, *enzymes):
         newname +=(':'+protease_name)
         parallel_enzymes = newname[1:]
     parallel_df['enzyme'] = parallel_enzymes
+    parallel_df = pd.DataFrame.drop_duplicates(parallel_df)
     parallel_df.to_csv(output_file)
     print('The parallel enzyme combination for '+parallel_enzymes+' has been saved as '+output_file)
 
