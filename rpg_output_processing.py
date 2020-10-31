@@ -37,6 +37,7 @@ def process_rpg_output(input_name):
     headers = ["FASTA_description", "sequential_number", "enzyme", "cleavage_position",
                "peptide_size", "mol_weight", "isoelectric_point", "sequence"]
     og_rpg = pd.read_csv(input_name + '.fasta', delimiter='_', header=None, names=headers)
+    og_rpg = og_rpg.drop('sequential_number' axis =1)
     og_rpg['peptide_start'] = abs(og_rpg['cleavage_position'] - og_rpg['peptide_size'])
     og_rpg['peptide_start'] = og_rpg['peptide_start'] + 1
     parent_isoform = []
@@ -53,7 +54,6 @@ def process_rpg_output(input_name):
 def create_parallel_digest(input_file, output_file, *enzymes):
     filein = pd.read_csv(input_file)
     filein = filein.drop('Unnamed: 0', axis = 1) # does this need to be removed earlier in rpg output processing?
-    filein = filein.drop('sequential_number', axis = 1) #because duplicate peptides may  not have same sequential no.
     parallel_df = pd.DataFrame()
     newname= ""
     for protease_name in list(enzymes):

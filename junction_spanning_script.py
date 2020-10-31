@@ -35,7 +35,6 @@ def junction_spanning(cds_file, rpg_file, strand, output_file_name):
                         junction_spanning = junction_spanning.append(row)
 
         junction_spanning = junction_spanning.drop(['Unnamed: 0'], axis=1)
-        junction_spanning = junction_spanning.drop(['sequential_number'], axis=1)
 
         junction_spanning.to_csv(output_file_name)
 
@@ -73,6 +72,5 @@ def junction_spanning(cds_file, rpg_file, strand, output_file_name):
                         junction_spanning = junction_spanning.append(row)
 
         junction_spanning = junction_spanning.drop(['Unnamed: 0'], axis=1)
-        junction_spanning = junction_spanning.drop(['sequential_number'], axis=1)
 
         junction_spanning.to_csv(output_file_name)
