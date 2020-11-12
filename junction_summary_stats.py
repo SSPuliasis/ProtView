@@ -1,14 +1,15 @@
 import pandas as pd
 
 def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
-    global overall_df
 
-    enzymelist = []
-    total_pept = []
-    junctions = []
-    summary_enzymelist = []
-    summary_junctions = []
-    summary_peptides = []
+    enzymelist = [] #all enzymes across all input files (contains duplicates)
+    total_pept = [] #total no. of peptides for each enzyme in each input file
+    junctions = [] # no. of introns per enzyme, per input file
+    summary_enzymelist = [ # all enzymes
+    summary_junctions = [] # no. of junctions per enzyme summarised for all input files
+    summary_peptides = [] # no. of peptides per enzyme summarised for all input files
+    junctions_covered = [] # no of junctions covered (duplicates removed to avoid double counting)
+    summary_junctions_covered = [] # no of junctions covered per enzyme summarised for all input files
 
     for input_file in junction_spanning_files:
         junctions_file = pd.read_csv(input_file)
@@ -19,9 +20,9 @@ def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
 
         for enzyme in sorted(set(junctions_file['enzyme'])):
             enzymecheck = junctions_file.apply(lambda x: True if x['enzyme'] == enzyme else False, axis=1)
-            enzyme_total = len(enzymecheck[enzymecheck == True])
+            enzyme_total_pept = len(enzymecheck[enzymecheck == True])
             enzymelist.append(enzyme)
-            total_pept.append(enzyme_total)
+            total_pept.append(enzyme_total_pept)
 
         junction_statistics['enzyme'] = enzymelist
         junction_statistics['junction_spanning_peptides'] = total_pept
@@ -40,17 +41,33 @@ def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
         junction_statistics['unique_junctions_covered'] = junctions
         junction_statistics = junction_statistics.set_index('enzyme')
 
+        #########################################
+        # Total junctions covered by each enzyme
+        for enzyme in sorted(set(enzymelist)):
+            nonredundant_count = 0
+            by_enzyme = indexed_file.loc[[enzyme]]
+            for intron_id in set(by_enzyme['intron_id']):
+                by_intron_id = by_enzyme.loc[(by_enzyme.intron_id == intron_id)]
+                without_duplicate_parents = by_intron_id.drop_duplicates(subset='parent', keep='first')
+                nonredundant_count += len(without_duplicate_parents)
+            print(enzyme, nonredundant_count, input_file)
+            junctions_covered.append(nonredundant_count)
+
+        junction_statistics['total_junctions_covered'] = junctions_covered
+
     # SIMPLIFIED DATAFRAME
     for enzyme in sorted(set(junction_statistics.index)):
         by_enzyme = junction_statistics.loc[[enzyme]]  # needs to be indexed by enzyme
         summary_enzymelist.append(enzyme)
         summary_junctions.append(sum(by_enzyme['unique_junctions_covered']))
         summary_peptides.append(sum(by_enzyme['junction_spanning_peptides']))
+        summary_junctions_covered.append(sum(by_enzyme['total_junctions_covered']))
 
-    overall_df = pd.DataFrame()
-    overall_df['enzyme'] = summary_enzymelist
-    overall_df['junction_spanning_peptides'] = summary_peptides
-    overall_df['unique_junctions_covered'] = summary_junctions
+    output_df = pd.DataFrame()
+    output_df['enzyme'] = summary_enzymelist
+    output_df['junction_spanning_peptides'] = summary_peptides
+    output_df['unique_junctions_covered'] = summary_junctions
+    output_df['total_junctions_covered'] = summary_junctions_covered
 
     ##############
     intron_no = 0
@@ -62,8 +79,8 @@ def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
 
         # Adding column for % of junctions covered, out of the available
         # junctions in the proteins
-        overall_df['total_junction_coverage'] = overall_df['junction_spanning_peptides'] / (intron_no) * 100
-        overall_df.to_csv(output_csv_name)
+        output_df['total_junction_coverage'] = overall_df['total_junctions_covered'] / (intron_no) * 100
+        output_df.to_csv(output_csv_name)
 
 ## EXAMPLE
 # add all of the filtered junction csv files to this list
