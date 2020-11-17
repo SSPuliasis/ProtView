@@ -5,7 +5,7 @@ def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
     enzymelist = [] #all enzymes across all input files (contains duplicates)
     total_pept = [] #total no. of peptides for each enzyme in each input file
     junctions = [] # no. of introns per enzyme, per input file
-    summary_enzymelist = [ # all enzymes
+    summary_enzymelist = [] # all enzymes
     summary_junctions = [] # no. of junctions per enzyme summarised for all input files
     summary_peptides = [] # no. of peptides per enzyme summarised for all input files
     junctions_covered = [] # no of junctions covered (duplicates removed to avoid double counting)
@@ -79,7 +79,7 @@ def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
 
         # Adding column for % of junctions covered, out of the available
         # junctions in the proteins
-        output_df['total_junction_coverage'] = overall_df['total_junctions_covered'] / (intron_no) * 100
+        output_df['total_junction_coverage'] = output_df['total_junctions_covered'] / (intron_no) * 100
         output_df.to_csv(output_csv_name)
 
 ## EXAMPLE
