@@ -1,8 +1,11 @@
 import os
 import pandas as pd
 import shutil
+from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
 # takes the raw rpg results as input, withoug '.fasta' extension in the name
+# add the removal of sequences containing an 'X' into this function (to remove them @ beginning of analysis)
+# and replace isoelectric point by rpg with the biopython iso point
 def process_rpg_output(input_name):
     og_rpg_file = input_name + '.fasta'
 
@@ -49,6 +52,57 @@ def process_rpg_output(input_name):
     og_rpg.to_csv(input_name + '_unfiltered.csv')
     # Can now remove the rpg output that is in fasta format (not a table)
     os.remove(input_name + '.fasta')
+
+#miscleavage needs to be done BEFORE any filtering/analysis
+def create_miscleavage(unfiltered_rpg_filename, mc, output_name):
+    input_file = pd.read_csv(unfiltered_rpg_filename, keep_default_na=False)
+    master_df = pd.DataFrame()
+    for enzyme in sorted(set(input_file.enzyme)):
+        by_enzyme = input_file.loc[(input_file.enzyme == enzyme)]
+        for isoform in sorted(set(by_enzyme.parent)):
+            baby_df = pd.DataFrame()
+            by_isoform_and_enzyme = by_enzyme.loc[(by_enzyme.parent == isoform)]
+            sequencelist = []
+            FASTA_description = []
+            start_positions = []
+            cleavage_positions = []
+            for index, pept in zip(by_isoform_and_enzyme.index, by_isoform_and_enzyme.sequence):
+                sequencelist.append(pept)
+                n = 1
+                FASTA_description.append(by_isoform_and_enzyme.FASTA_description[index])
+                start_positions.append(by_isoform_and_enzyme.peptide_start[index])
+                cleavage_positions.append(by_isoform_and_enzyme.cleavage_position[index])
+                while n <= mc:
+                    if index + n in by_isoform_and_enzyme.index:
+                        pept += input_file.sequence[index + n]
+                        sequencelist.append(pept)
+                        FASTA_description.append(by_isoform_and_enzyme.FASTA_description[index])
+                        start_positions.append(by_isoform_and_enzyme.peptide_start[index])
+                        cleavage_positions.append(input_file.cleavage_position[index + n])
+                        n += 1
+                    else:
+                        break
+            # start appending columns to a new df
+            baby_df['sequence'] = sequencelist
+            baby_df['FASTA_description'] = FASTA_description
+            baby_df['enzyme'] = enzyme
+            baby_df['parent'] = isoform
+            baby_df['peptide_size'] = baby_df['sequence'].apply(len)
+            baby_df['peptide_start'] = start_positions
+            baby_df['cleavage_position'] = cleavage_positions
+            master_df = master_df.append(baby_df)
+
+    mol_weights = []
+    iso_points = []
+    for sequence in master_df['sequence']:
+        analysed_seq = ProteinAnalysis(sequence)
+        mol_w = analysed_seq.molecular_weight()
+        iso_p = analysed_seq.isoelectric_point()
+        mol_weights.append(mol_w)
+        iso_points.append(iso_p)
+    master_df['isoelectric_point'] = iso_points
+    master_df['molecular_weight'] = mol_weights
+    master_df.to_csv(output_name)
 
 # combining digests in parallel
 def create_parallel_digest(input_file, output_file, *enzymes):
