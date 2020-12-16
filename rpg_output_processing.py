@@ -6,6 +6,7 @@ from Bio.SeqUtils.ProtParam import ProteinAnalysis
 # takes the raw rpg results as input, withoug '.fasta' extension in the name
 # add the removal of sequences containing an 'X' into this function (to remove them @ beginning of analysis)
 # and replace isoelectric point by rpg with the biopython iso point
+# remove '>' from start of parent and corrct in all subsequent scripts
 def process_rpg_output(input_name):
     og_rpg_file = input_name + '.fasta'
 

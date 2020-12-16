@@ -17,7 +17,7 @@ def junction_spanning(cds_file, rpg_file, strand, output_file_name):
 
         dict_df = dict_df.set_index(['Isoform', 'junction'])
         junctions_dict = dict_df.to_dict('index')
-
+#following chunk has already been done in rpg processing script?
         parent_isoform = []
         for item in processed_rpg['FASTA_description']:
             split_description = item.split()
