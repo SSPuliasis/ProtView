@@ -24,5 +24,5 @@ def filter_isoform_unique_peptides(digest_results, full_proteome_fasta, output_n
         for peptide_sequence in copy_seq_iso_dict.keys():
             temp_df = by_enzyme.loc[by_enzyme['sequence'] == peptide_sequence]
             output_df = output_df.append(temp_df)
+        print(enzyme, len(output_df))
     output_df.to_csv(output_name)
-    print(enzyme, len(output_df))
