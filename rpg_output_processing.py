@@ -4,9 +4,8 @@ import shutil
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
 # takes the raw rpg results as input, withoug '.fasta' extension in the name
-# add the removal of sequences containing an 'X' into this function (to remove them @ beginning of analysis)
 # and replace isoelectric point by rpg with the biopython iso point
-# remove '>' from start of parent and corrct in all subsequent scripts
+# remove '>' from start of parent and correct in all subsequent scripts
 def process_rpg_output(input_name):
     og_rpg_file = input_name + '.fasta'
 
@@ -49,6 +48,9 @@ def process_rpg_output(input_name):
         split_description = item.split()
         parent_isoform.append(split_description[0])
     og_rpg['parent'] = parent_isoform
+    # removing rows with 'na' and sequences containing 'x'
+    og_rpg = og_rpg.dropna()
+    og_rpg = og_rpg[~og_rpg.sequence.str.contains('X')]
     # save new table
     og_rpg.to_csv(input_name + '_unfiltered.csv')
     # Can now remove the rpg output that is in fasta format (not a table)
