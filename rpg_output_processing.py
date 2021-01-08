@@ -48,9 +48,10 @@ def process_rpg_output(input_name):
         split_description = item.split()
         parent_isoform.append(split_description[0])
     og_rpg['parent'] = parent_isoform
-    # removing rows with 'na' and sequences containing 'x'
+    # removing rows with 'na' and sequences containing 'x' and '*'
     og_rpg = og_rpg.dropna()
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('X')]
+    og_rpg = og_rpg[~og_rpg.sequence.str.contains('\*')]
     # save new table
     og_rpg.to_csv(input_name + '_unfiltered.csv')
     # Can now remove the rpg output that is in fasta format (not a table)
