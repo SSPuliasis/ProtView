@@ -2,20 +2,20 @@ import pandas as pd
 from Bio import SeqIO
 
 # enter the names of all of the input files as lists
-unfiltered_rpg_files = ["chr1_fwd_rpg_unfiltered.csv", "chr2_fwd_rpg_unfiltered.csv",
-                        "chr3_fwd_rpg_unfiltered.csv", "chr4_fwd_rpg_unfiltered.csv",
-                        "chr5_fwd_rpg_unfiltered.csv",
-                        "chr1_rev_rpg_unfiltered.csv", "chr2_rev_rpg_unfiltered.csv",
-                        "chr3_rev_rpg_unfiltered.csv", "chr4_rev_rpg_unfiltered.csv",
-                        "chr5_rev_rpg_unfiltered.csv"]
-filtered_rpg_files = ['chr1_fwd_rpg_filtered_len_cysteine.csv', 'chr2_fwd_rpg_filtered_len_cysteine.csv',
-                      'chr3_fwd_rpg_filtered_len_cysteine.csv', 'chr4_fwd_rpg_filtered_len_cysteine.csv',
-                      'chr5_fwd_rpg_filtered_len_cysteine.csv',
-                      'chr1_rev_rpg_filtered_len_cysteine.csv', 'chr2_rev_rpg_filtered_len_cysteine.csv',
-                      'chr3_rev_rpg_filtered_len_cysteine.csv', 'chr4_rev_rpg_filtered_len_cysteine.csv',
-                      'chr5_rev_rpg_filtered_len_cysteine.csv']
-fasta_files = ['chr1_fwd.fasta', 'chr2_fwd.fasta', 'chr3_fwd.fasta', 'chr4_fwd.fasta', 'chr5_fwd.fasta',
-               'chr1_rev.fasta', 'chr2_rev.fasta', 'chr3_rev.fasta', 'chr4_rev.fasta', 'chr5_rev.fasta']
+#unfiltered_rpg_files = ["chr1_fwd_rpg_unfiltered.csv", "chr2_fwd_rpg_unfiltered.csv",
+                       # "chr3_fwd_rpg_unfiltered.csv", "chr4_fwd_rpg_unfiltered.csv",
+                        #"chr5_fwd_rpg_unfiltered.csv",
+                        #"chr1_rev_rpg_unfiltered.csv", "chr2_rev_rpg_unfiltered.csv",
+                        #"chr3_rev_rpg_unfiltered.csv", "chr4_rev_rpg_unfiltered.csv",
+                        #"chr5_rev_rpg_unfiltered.csv"]
+#filtered_rpg_files = ['chr1_fwd_rpg_filtered_len_cysteine.csv', 'chr2_fwd_rpg_filtered_len_cysteine.csv',
+ #                     'chr3_fwd_rpg_filtered_len_cysteine.csv', 'chr4_fwd_rpg_filtered_len_cysteine.csv',
+  #                    'chr5_fwd_rpg_filtered_len_cysteine.csv',
+   #                   'chr1_rev_rpg_filtered_len_cysteine.csv', 'chr2_rev_rpg_filtered_len_cysteine.csv',
+    #                  'chr3_rev_rpg_filtered_len_cysteine.csv', 'chr4_rev_rpg_filtered_len_cysteine.csv',
+     #                 'chr5_rev_rpg_filtered_len_cysteine.csv']
+#fasta_files = ['chr1_fwd.fasta', 'chr2_fwd.fasta', 'chr3_fwd.fasta', 'chr4_fwd.fasta', 'chr5_fwd.fasta',
+ #              'chr1_rev.fasta', 'chr2_rev.fasta', 'chr3_rev.fasta', 'chr4_rev.fasta', 'chr5_rev.fasta']
 
 
 # creating the summary table
@@ -231,4 +231,4 @@ temp_table['residue_freq'] = freqlist
 # ADDING COVERAGE COLUMN TO EXISTING TABLE
 summary_table['residue_coverage_%'] = (temp_table['residue_freq'] / residue_freq_in_seq) * 100
 
-summary_table.to_csv('cysteine_summary.csv')
+#summary_table.to_csv('cysteine_summary.csv')

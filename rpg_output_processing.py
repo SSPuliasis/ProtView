@@ -26,9 +26,9 @@ def process_rpg_output(input_name):
     f = open(filein, 'r')
     filedata = f.read()
     f.close()
-    newdata = filedata.replace(">", "\n>")
+    filedata = filedata.replace(">", "\n>")
     f = open(filein, 'w')
-    f.write(newdata)
+    f.write(filedata)
     f.close()
     # step 4: get rid of the intermediate files
     os.remove(filename)
@@ -36,6 +36,7 @@ def process_rpg_output(input_name):
     # step 5: change the name for the output results file
     outputfile = input_name + '.fasta'
     os.rename(filein, outputfile)
+    del (filedata)
     # Renaming the column headers and setting the delimiter
     headers = ["FASTA_description", "sequential_number", "enzyme", "cleavage_position",
                "peptide_size", "mol_weight", "isoelectric_point", "sequence"]
@@ -121,6 +122,8 @@ def create_parallel_digest(input_file, output_file, *enzymes):
     parallel_df['enzyme'] = parallel_enzymes
     parallel_df = pd.DataFrame.drop_duplicates(parallel_df)
     parallel_df.to_csv(output_file)
+    del(filein)
+    del(parallel_df)
     print('The parallel enzyme combination for '+parallel_enzymes+' has been saved as '+output_file)
 
 # FILTERING BY LENGTH
@@ -158,8 +161,8 @@ def merge_files(output_file_name, *input_file_names):
 
 # EXAMPLE
 # name of the rpg output file to be processed in '' without .fasta at the end
-process_rpg_output('at1g6600_at1g6610_fwd_rpg')
-filter_by_length(7, 35, 'at1g6600_a1g6610_fwd_rpg_unfiltered.csv', 'at1g6600_at1g6610_fwd_rpg_filtered_len.csv')
-filter_for_residue('C', 'at1g6600_at1g6610_fwd_rpg_filtered_len.csv',
-                   'at1g6600_at1g6610_fwd_rpg_filtered_len_cysteine.csv')
-create_parallel_digest('at1g6600_at1g6610_rev_rpg_filtered.csv', 'tryp:lysc_rev_rpg_filtered.csv', 'Trypsin', 'Lys-C')
+#process_rpg_output('at1g6600_at1g6610_fwd_rpg')
+#filter_by_length(7, 35, 'at1g6600_a1g6610_fwd_rpg_unfiltered.csv', 'at1g6600_at1g6610_fwd_rpg_filtered_len.csv')
+#filter_for_residue('C', 'at1g6600_at1g6610_fwd_rpg_filtered_len.csv',
+                   #'at1g6600_at1g6610_fwd_rpg_filtered_len_cysteine.csv')
+#create_parallel_digest('at1g6600_at1g6610_rev_rpg_filtered.csv', 'tryp:lysc_rev_rpg_filtered.csv', 'Trypsin', 'Lys-C')
