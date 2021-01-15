@@ -186,21 +186,22 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 ##### WITH RESIDUE FILTERING - doesn't work yet for parallel combinations
 # FILTERED RPG FILES ABOVE NEED TO HAVE BEEN FILTERED FOR RESIDUE FOR THIS TO WORK
 # COUNTING FREQ OF RESIDUES IN THE SEQUENCES
-residue_freq_in_seq = 0
-for file in fasta_files:
-    for rec in SeqIO.parse(file, "fasta"):
-        freq_in_fasta = rec.seq.count("C")
+
+#worked on but not complete
+def add_residue_coverage_column(residue, fasta_file, filtered_rpg_file, summary_table, output_table_name):
+    summary_table = pd.read_csv(summary_table)
+
+    residue_freq_in_seq = 0
+    for rec in SeqIO.parse(fasta_file, "fasta"):
+        freq_in_fasta = rec.seq.count(residue)
         residue_freq_in_seq += freq_in_fasta
 
-# COUNTING FREQ OF RESIDUES IN FILTERED DATA
-# NEED SEPARATE FOR EACH ENZYME, MAKE NEW TABLE
-
-newlist = []
-enzymelist = []
-freqlist = []
-temp_table = pd.DataFrame()
-for name in filtered_rpg_files:
-    rpg_file = pd.read_csv(name)
+    # COUNTING FREQ OF RESIDUES IN FILTERED DATA
+    # NEED SEPARATE FOR EACH ENZYME, MAKE NEW TABLE
+    enzymelist = []
+    freqlist = []
+    temp_table = pd.DataFrame()
+    rpg_file = pd.read_csv(filtered_rpg_file)
     x = rpg_file['enzyme'].tolist()
     for enzyme in sorted(set(x)):
         seqlist = []
@@ -208,27 +209,25 @@ for name in filtered_rpg_files:
         seqlist = rpg_by_enzyme['sequence'].tolist()
         frequency = 0
         for sequence in seqlist:
-            frequency += sequence.count("C")
+            frequency += sequence.count(residue)
         freqlist.append(frequency)
         enzymelist.append(enzyme)
-temp_table['enzyme'] = enzymelist
-temp_table['residue_freq'] = freqlist
+    temp_table['enzyme'] = enzymelist
+    temp_table['residue_freq'] = freqlist
 
-x = temp_table['enzyme'].tolist()
-enzymelist = []
-freqlist = []
-for enzyme in sorted(set(x)):
-    temp_table_by_enzyme = temp_table[temp_table.enzyme == enzyme]
-    enzymelist.append(enzyme)
-    freqlist.append(sum(temp_table_by_enzyme['residue_freq']))  # append to datafrane
+    x = temp_table['enzyme'].tolist()
+    enzymelist = []
+    freqlist = []
+    for enzyme in sorted(set(x)):
+        temp_table_by_enzyme = temp_table[temp_table.enzyme == enzyme]
+        enzymelist.append(enzyme)
+        freqlist.append(sum(temp_table_by_enzyme['residue_freq']))  # append to datafrane
 
-# WHERE IS TEMP TABLE BY ENZYME?!?!
+    temp_table = pd.DataFrame()
+    temp_table['enzyme'] = enzymelist
+    temp_table['residue_freq'] = freqlist
 
-temp_table = pd.DataFrame()
-temp_table['enzyme'] = enzymelist
-temp_table['residue_freq'] = freqlist
+    # ADDING COVERAGE COLUMN TO EXISTING TABLE
+    summary_table['residue_coverage_%'] = (temp_table['residue_freq'] / residue_freq_in_seq) * 100
 
-# ADDING COVERAGE COLUMN TO EXISTING TABLE
-summary_table['residue_coverage_%'] = (temp_table['residue_freq'] / residue_freq_in_seq) * 100
-
-#summary_table.to_csv('cysteine_summary.csv')
+    summary_table.to_csv(output_table_name)

@@ -121,4 +121,4 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     summary_table.to_csv(output_name)
 
 
-create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 'single_summary.csv')
+#create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 'single_summary.csv')
