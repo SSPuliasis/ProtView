@@ -97,7 +97,6 @@ Cleavage position|enzyme|Intron id|Isoelectric point|junction|Mol weight|parent|
 Peptides that cover the first AT1G66610 exon and its adjacent junction for both isoforms in Figure 5 can be used to discriminate between the two AT1G66610 isoforms, because these exons are unique to each isoform. 
 
 ![](./README_images/Pasted image 20210115163720.png)
-![](./README_images/Pasted image 20210115163346.png)
 
 Figure 5: Gviz visualization of junction-covering peptides mapped back onto the genome for AT1G66610. The first  row shows the genome, thick coloured boxes are exons, thin boxes are UTRs, and dashed lines represent introns. Junction coverages by different proteases are in the following rows, coloured differently for each protease/ combination. Peptides that appear to cover introns here span exon-exon junctions on the translated proteome.
 
