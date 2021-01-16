@@ -1,16 +1,17 @@
-ProtView is able to provide possible peptides that can be identified by various digestion schemes, identify peptides that cover splice junctions, calculate sequence coverage percentage and junction coverage percentage, and convert peptide coordinates to genomic.
+ProtView is designed to present statistics of in silico digestions and provide useful information, such as the protein sequence coverage, peptides covering exon-exon junctions, and the percentage of junctions or residues in the data that are covered by peptides of a digest (Figure 1). It allows the users to see the portions of the gene/transcript on the genome that are covered by proteomics data. It takes the protein sequence (fasta) and the coding sequence annotations (gff3 format) on the genome as inputs. It incorporates Rapid Peptides Generator (RPG) ([Maillet, 2019](https://academic.oup.com/nargab/article/2/1/lqz004/5581718)), which carries out the in-silico digestion. It then maps the digested proteins back to transcripts/genes on the genome, which allows the comparisons of the transcript/ gene sequences visible to proteomics experiments between different digestions.
 
 ![](./README_images/protview.png)
+
 Figure 1: outline of the ProtView workflow
 
 ### Data acquisition
-Araport11 Arabidopsis protein sequences were retrieved from the [tair database](https://www.arabidopsis.org/download/index-auto.jsp?dir=%2Fdownload_files%2FSequences%2FAraport11_blastsets) in fasta format and separated by chromosome and strand. The Araport11 GFF3 files were downloaded separately for each chromosome via [jbrowse](https://www.araport.org/data/araport11). AT1G66610 (Figure 2) is used as an example in this section to demonstrate how ProtView works.
+Araport11 Arabidopsis protein sequences were retrieved from the [tair database](https://www.arabidopsis.org/download/index-auto.jsp?dir=%2Fdownload_files%2FSequences%2FAraport11_blastsets) in fasta format and separated by chromosome and strand. The Araport11 GFF3 files were downloaded separately for each chromosome via [jbrowse](https://www.araport.org/data/araport11). AT1G66610 (Figure 2) is used as an example to demonstrate how ProtView works.
  
  ![alt text](./README_images/Pasted_image_20210115161811.png)
+
 Figure 2: Jbrowse depiction of AT1G66610
 
 ## ProtView Functions
-ProtView is designed to present statistics of in silico digestions and provide useful information, such as the protein sequence coverage, peptides covering exon-exon junctions, and the percentage of junctions in the data that are covered by peptides of a digest (Figure 2). It allows the users to see the portions of the gene/transcript on the genome that are covered by proteomics data. It takes the protein sequence (fasta) and the coding sequence annotations (gff3 format) on the genome as inputs. It incorporates Rapid Peptides Generator (RPG) ([Maillet, 2019](https://academic.oup.com/nargab/article/2/1/lqz004/5581718), which carries out the in-silico digestion. It then maps the digested proteins back to transcripts/genes on the genome, which allows the comparisons of the transcript/ gene sequences visible to proteomics experiments between different digestions.
 
 ### PRG digest & output Processing
 Digests were carried out in silico using Rapid Peptides Generator (RPG) ([Maillet, 2019](https://academic.oup.com/nargab/article/2/1/lqz004/5581718)). The Arabidopsis sequences were digested with Arg-C, Asp-N, Chymotrypsin-high, Glu-C, Lys-C, Lys-N, and Trypsin using default RPG settings in sequential mode, in addition to Trypsin/Asp-N, Trypsin/Lys-C and Trypsin/Chymotrypsin combinations in concurrent mode. Cleaving rules used by RPG for each enzyme can be found [here](https://rapid-peptide-generator.readthedocs.io/en/latest/enzymes.html#enzymes). Chymotrypsin-high specificity was selected over Chymotrypsin-low specificity in this in silico analysis because of its higher specificity.
@@ -52,6 +53,7 @@ genomic end position (RHS)=isoform first start+cumulative intron length+3*(prote
 In the figure below (Figure 3), peptides A and B each have the second amino acid as a coordinate, however the number given for the genomic coordinates differs between the peptides due to this amino acid representing a start and end position, and the script giving outer bounds of genomic positions.
 
 ![](./README_images/Pasted_image_20210115163022.png)
+
 Figure 3: Illustration example of peptide positions and their corresponding coordinates on the genome. The row of numbers represents nucleotides in the genome, with each 3 nucleotides corresponding to an amino acid in the protein sequence. 
 
 The resulting data frame contains the parent isoform, both genomic and relative protein start and end positions for each peptide, and the enzymes used to generate the peptide (Table 3). For selected examples, the genomic coordinates of peptides were used to visualize isoform coverage on the genome with the R package Gviz ( [Hahne and Ivanek, 2016](https://link.springer.com/protocol/10.1007%2F978-1-4939-3578-9_16) (Figure 4).
@@ -63,6 +65,7 @@ Table 3: Output format of genomic coordinate conversion function on a single pep
 | AT1G66610.1 | 13 | 24851412 | 1 | 24851450 | Arg-C|
 
 ![](./README_images/Pasted_image_20210115163346.png)
+
 Figure 4: Gviz visualization of genome coverage for AT1G6610 using peptides in the 7-35 aa range. The first row shows the genome, thick coloured boxes are exons, thin boxes are UTRs, and dashed lines represent introns. Peptide sequence coverages by different proteases are in the following rows, with each protease/combination in a different colour. Peptides that appear to map to introns here span exon-exon junctions on the translated proteome. 
 
 ### Summary Statistics
@@ -93,6 +96,7 @@ Cleavage position|enzyme|Intron id|Isoelectric point|junction|Mol weight|parent|
 Peptides that cover the first AT1G66610 exon and its adjacent junction for both isoforms in Figure 5 can be used to discriminate between the two AT1G66610 isoforms, because these exons are unique to each isoform. 
 
 ![](./README_images/Pasted_image_20210115163720.png)
+
 Figure 5: Gviz visualization of junction-covering peptides mapped back onto the genome for AT1G66610. The first  row shows the genome, thick coloured boxes are exons, thin boxes are UTRs, and dashed lines represent introns. Junction coverages by different proteases are in the following rows, coloured differently for each protease/ combination. Peptides that appear to cover introns here span exon-exon junctions on the translated proteome.
 
 A summary table is generated from the junction-covering peptide results for each strand. Each table includes the number of junction-covering peptides generated by each enzyme, the number of unique junctions that an enzyme covers (to avoid double counting of splice junctions shared between transcripts), and a junction coverage percentage, which is the percentage of the total junctions available in the isoforms being examined that are covered by an enzyme. 
