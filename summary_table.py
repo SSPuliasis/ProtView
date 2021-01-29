@@ -50,7 +50,8 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
         # print(index, a, c)
         # print(testenzyme[index], testenzyme[index - 1], testtotal[index])
         if testenzyme[index] == testenzyme[index - 1]:
-            testtotal[index] += testtotal[index - 1]
+            if testtotal[index] != testtotal[index - 1]:
+                testtotal[index] += testtotal[index - 1]
         elif testenzyme[index] != testenzyme[index - 1]:
             continue
 
@@ -95,7 +96,8 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 
     for index, (a, c) in enumerate(zip(testenzyme, testtotal)):
         if testenzyme[index] == testenzyme[index - 1]:
-            testtotal[index] += testtotal[index - 1]
+            if testtotal[index] != testtotal[index - 1]:
+                testtotal[index] += testtotal[index - 1]
         elif testenzyme[index] != testenzyme[index - 1]:
             continue
 
