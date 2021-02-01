@@ -82,8 +82,6 @@ Lys-C|32|18.8|19|54.4|56.7
 Lys-N|32|18.8|19|54.7|63.3
 Trypsin|65|9.3|36|87.7|60
 
-### Isoform-unique peptides
-
 ### Junction-covering peptides & statistics
 Aside from the general information above, another function of ProtView is to identify peptides that span exon-exon junctions, which is useful for identifying peptides that can be used to discriminate between isoforms. The default input for identifying junction-covering peptides is the filtered digest results, but this can be changed to the unfiltered results. The identification of peptides that cover exon-exon junctions is carried out separately for each strand, using junction position information from the processed gff3 files. Junctions are defined as the positions between CDSs of the same isoform. For every peptide in the digest results that originates from an isoform with junction information, a check is carried out to determine whether any junctions are positioned within the peptide. Positive outcomes are saved in the same format as the digest results, with an additional column for junction location (Table 5).
 
