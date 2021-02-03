@@ -1,5 +1,7 @@
 import pandas as pd
 from Bio import SeqIO
+import statistics
+
 
 # enter the names of all of the input files as lists
 #unfiltered_rpg_files = ["chr1_fwd_rpg_unfiltered.csv", "chr2_fwd_rpg_unfiltered.csv",
@@ -30,7 +32,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
         inputfile = pd.read_csv(name)
         x = inputfile['enzyme'].tolist()
         print(name)
-        for enzyme in set(x):
+        for enzyme in sorted(set(x)):
             testname.append(name)
             testenzyme.append(enzyme)
             testtotal.append(x.count(enzyme))
@@ -71,6 +73,17 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     summary_table['enzyme'] = enzymelist
     summary_table['total peptides'] = totallist
 
+    #MEDIAN PEPTIDE LENGTHS
+    length_dist = pd.DataFrame()
+    length_dist['enzyme'] = x
+    length_dist['peptide_size'] = peptide_lengths
+    medians = []
+    for enzyme in sorted(set(x)):
+        median_length = statistics.median(length_dist.loc[(length_dist.enzyme == enzyme)].peptide_size)
+        #print(enzyme, median_length)
+        medians.append(median_length)
+    summary_table['median length']  = medians
+
     #  TOTAL FILTERED PEPTIDES GENERATED
     testname = []
     testenzyme = []
@@ -79,7 +92,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
         inputfile = pd.read_csv(name)
         x = inputfile['enzyme'].tolist()
         print(name)
-        for enzyme in set(x):
+        for enzyme in sorted(set(x)):
             testname.append(name)
             testenzyme.append(enzyme)
             testtotal.append(x.count(enzyme))
@@ -181,7 +194,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     # summary_table
 
     # changing the column orders so that mena length is after total no. of unfiltered pepts
-    summary_table = summary_table[['enzyme', 'total peptides', 'mean length', 'filtered peptides', 'coverage']]
+    summary_table = summary_table[['enzyme', 'total peptides', 'mean length', 'median length', 'filtered peptides', 'coverage']]
 
     summary_table.to_csv(output_name)
 

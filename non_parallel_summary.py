@@ -1,5 +1,7 @@
 import pandas as pd
 from Bio import SeqIO
+import statistics
+
 
 unfiltered_rpg_files = ["trypsin_fwd_rpg_unfiltered.csv", "trypsin_rev_rpg_unfiltered.csv", "chym_fwd_rpg_unfiltered.csv", "chym_rev_rpg_unfiltered.csv", "lysc_fwd_rpg_unfiltered.csv", "lysc_rev_rpg_unfiltered.csv", "aspn_fwd_rpg_unfiltered.csv", "aspn_rev_rpg_unfiltered.csv"]
 filtered_rpg_files = ["trypsin_fwd_rpg_filtered.csv", "trypsin_rev_rpg_filtered.csv", "chym_fwd_rpg_filtered.csv", "chym_rev_rpg_filtered.csv", "lysc_fwd_rpg_filtered.csv", "lysc_rev_rpg_filtered.csv", "aspn_fwd_rpg_filtered.csv", "aspn_rev_rpg_filtered.csv"]
@@ -20,6 +22,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
             testname.append(name)
             testenzyme.append(enzyme)
             testtotal.append(x.count(enzyme))
+            peptide_lengths = inputfile['peptide_size'].tolist()
     temp_table = pd.DataFrame()
     temp_table["input"] = testname
     temp_table['enzyme'] = testenzyme
@@ -49,6 +52,16 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
             continue
     summary_table['enzyme'] = enzymelist
     summary_table['total peptides'] = totallist
+    #MEDIAN PEPTIDE LENGTHS
+    length_dist = pd.DataFrame()
+    length_dist['enzyme'] = x
+    length_dist['peptide_size'] = peptide_lengths
+    medians = []
+    for enzyme in sorted(set(x)):
+        median_length = statistics.median(length_dist.loc[(length_dist.enzyme == enzyme)].peptide_size)
+        #print(enzyme, median_length)
+        medians.append(median_length)
+    summary_table['median length']  = medians
     #  TOTAL FILTERED PEPTIDES GENERATED
     testname = []
     testenzyme = []
