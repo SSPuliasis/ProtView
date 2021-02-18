@@ -212,37 +212,33 @@ def add_residue_coverage_column(residue, fasta_file, filtered_rpg_file, summary_
         residue_freq_in_seq += freq_in_fasta
 
     # COUNTING FREQ OF RESIDUES IN FILTERED DATA
-    # NEED SEPARATE FOR EACH ENZYME, MAKE NEW TABLE
     enzymelist = []
     freqlist = []
-    temp_table = pd.DataFrame()
+    freq_table = pd.DataFrame()
     rpg_file = pd.read_csv(filtered_rpg_file)
     x = rpg_file['enzyme'].tolist()
     for enzyme in sorted(set(x)):
-        seqlist = []
+        temp_table = pd.DataFrame()
+        positionslist = []
+        parentisoforms = []
         rpg_by_enzyme = rpg_file[rpg_file.enzyme == enzyme]
-        seqlist = rpg_by_enzyme['sequence'].tolist()
         frequency = 0
-        for sequence in seqlist:
-            frequency += sequence.count(residue)
+        for parent, sequence, start in zip(rpg_by_enzyme['parent'], rpg_by_enzyme['sequence'], rpg_by_enzyme['peptide_start']):
+            for resstartpos in re.finditer(residue, sequence):
+                respos = start + resstartpos.start()
+                positionslist.append(respos)
+                parentisoforms.append(parent)
+                # print(enzyme, resstartpos.start(), start, respos)
+        temp_table['isoform'] = parentisoforms
+        temp_table['residue_position'] = positionslist
+        temp_table = temp_table.drop_duplicates()
+        frequency = len(temp_table)
         freqlist.append(frequency)
         enzymelist.append(enzyme)
-    temp_table['enzyme'] = enzymelist
-    temp_table['residue_freq'] = freqlist
-
-    x = temp_table['enzyme'].tolist()
-    enzymelist = []
-    freqlist = []
-    for enzyme in sorted(set(x)):
-        temp_table_by_enzyme = temp_table[temp_table.enzyme == enzyme]
-        enzymelist.append(enzyme)
-        freqlist.append(sum(temp_table_by_enzyme['residue_freq']))  # append to datafrane
-
-    temp_table = pd.DataFrame()
-    temp_table['enzyme'] = enzymelist
-    temp_table['residue_freq'] = freqlist
+    freq_table['residue_freq'] = freqlist
+    freq_table['enzyme'] = enzymelist
 
     # ADDING COVERAGE COLUMN TO EXISTING TABLE
-    summary_table['residue_coverage_%'] = (temp_table['residue_freq'] / residue_freq_in_seq) * 100
-
+    freq_table['residue_coverage_%'] = (freq_table['residue_freq'] / residue_freq_in_seq) * 100
+    summary_table['residue_coverage_%'] = freq_table['residue_coverage_%'].tolist()
     summary_table.to_csv(output_table_name)
