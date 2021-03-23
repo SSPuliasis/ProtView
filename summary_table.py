@@ -1,7 +1,7 @@
 import pandas as pd
 from Bio import SeqIO
 import statistics
-
+import re
 
 # enter the names of all of the input files as lists
 #unfiltered_rpg_files = ["chr1_fwd_rpg_unfiltered.csv", "chr2_fwd_rpg_unfiltered.csv",
