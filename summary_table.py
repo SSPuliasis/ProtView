@@ -203,9 +203,9 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 # COUNTING FREQ OF RESIDUES IN THE SEQUENCES
 
 #worked on but not complete
-def add_residue_coverage_column(residue, fasta_file, filtered_rpg_file, summary_table, output_table_name):
+def add_residue_coverage_column(residue, fasta_file,summary_table, output_table_name, *filtered_rpg_files):
     summary_table = pd.read_csv(summary_table)
-
+    summary_table = summary_table.sort_values('enzyme')
     residue_freq_in_seq = 0
     for rec in SeqIO.parse(fasta_file, "fasta"):
         freq_in_fasta = rec.seq.count(residue)
@@ -215,30 +215,34 @@ def add_residue_coverage_column(residue, fasta_file, filtered_rpg_file, summary_
     enzymelist = []
     freqlist = []
     freq_table = pd.DataFrame()
-    rpg_file = pd.read_csv(filtered_rpg_file)
-    x = rpg_file['enzyme'].tolist()
-    for enzyme in sorted(set(x)):
-        temp_table = pd.DataFrame()
-        positionslist = []
-        parentisoforms = []
-        rpg_by_enzyme = rpg_file[rpg_file.enzyme == enzyme]
-        frequency = 0
-        for parent, sequence, start in zip(rpg_by_enzyme['parent'], rpg_by_enzyme['sequence'], rpg_by_enzyme['peptide_start']):
-            for resstartpos in re.finditer(residue, sequence):
-                respos = start + resstartpos.start()
-                positionslist.append(respos)
-                parentisoforms.append(parent)
-                # print(enzyme, resstartpos.start(), start, respos)
-        temp_table['isoform'] = parentisoforms
-        temp_table['residue_position'] = positionslist
-        temp_table = temp_table.drop_duplicates()
-        frequency = len(temp_table)
-        freqlist.append(frequency)
-        enzymelist.append(enzyme)
+    for name in filtered_rpg_files:
+        rpg_file = pd.read_csv(name)
+        x = rpg_file['enzyme'].tolist()
+        for enzyme in sorted(set(x)):
+            temp_table = pd.DataFrame()
+            positionslist = []
+            parentisoforms = []
+            rpg_by_enzyme = rpg_file[rpg_file.enzyme == enzyme]
+            frequency = 0
+            for parent, sequence, start in zip(rpg_by_enzyme['parent'], rpg_by_enzyme['sequence'], rpg_by_enzyme['peptide_start']):
+                for resstartpos in re.finditer(residue, sequence):
+                    respos = start + resstartpos.start()
+                    positionslist.append(respos)
+                    parentisoforms.append(parent)
+                    # print(enzyme, resstartpos.start(), start, respos)
+            temp_table['isoform'] = parentisoforms
+            temp_table['residue_position'] = positionslist
+            temp_table = temp_table.drop_duplicates()
+            frequency = len(temp_table)
+            freqlist.append(frequency)
+            enzymelist.append(enzyme)
     freq_table['residue_freq'] = freqlist
     freq_table['enzyme'] = enzymelist
+    freq_table = freq_table.sort_values(['enzyme']).reset_index(drop=True)
+    freq_table['cumulative_freq'] = freq_table.groupby(['enzyme'])['residue_freq'].cumsum(axis=0)
+    enzyme_table = freq_table.groupby(['enzyme']).tail(1)
 
     # ADDING COVERAGE COLUMN TO EXISTING TABLE
-    freq_table['residue_coverage_%'] = (freq_table['residue_freq'] / residue_freq_in_seq) * 100
-    summary_table['residue_coverage_%'] = freq_table['residue_coverage_%'].tolist()
+    enzyme_table['residue_coverage_%'] = (enzyme_table['cumulative_freq'] / residue_freq_in_seq) * 100
+    summary_table[residue+' coverage %'] = enzyme_table['residue_coverage_%'].tolist()
     summary_table.to_csv(output_table_name)
