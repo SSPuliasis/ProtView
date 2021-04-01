@@ -32,15 +32,14 @@ def process_rpg_output(input_name):
     f.close()
     # step 4: get rid of the intermediate files
     os.remove(filename)
-    os.remove(og_rpg_file)
     # step 5: change the name for the output results file
-    outputfile = input_name + '.fasta'
+    outputfile = input_name + '_out.fasta'
     os.rename(filein, outputfile)
     del (filedata)
     # Renaming the column headers and setting the delimiter
     headers = ["FASTA_description", "sequential_number", "enzyme", "cleavage_position",
                "peptide_size", "mol_weight", "isoelectric_point", "sequence"]
-    og_rpg = pd.read_csv(input_name + '.fasta', delimiter='_', header=None, names=headers, keep_default_na=False)
+    og_rpg = pd.read_csv(input_name + '_out.fasta', delimiter='_', header=None, names=headers, keep_default_na=False)
     og_rpg = og_rpg.drop('sequential_number', axis =1)
     og_rpg['peptide_start'] = abs(og_rpg['cleavage_position'] - og_rpg['peptide_size'])
     og_rpg['peptide_start'] = og_rpg['peptide_start'] + 1
@@ -54,13 +53,12 @@ def process_rpg_output(input_name):
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('X')]
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('\*')]
     # save new table
-    og_rpg.to_csv(input_name + '_unfiltered.csv')
-    # Can now remove the rpg output that is in fasta format (not a table)
-    os.remove(input_name + '.fasta')
+    og_rpg.to_csv(input_name + '.csv')
+    os.remove(input_name+'_out.fasta')
 
 #miscleavage needs to be done BEFORE any filtering/analysis
-def create_miscleavage(unfiltered_rpg_filename, mc, output_name):
-    input_file = pd.read_csv(unfiltered_rpg_filename, keep_default_na=False)
+def create_miscleavage(input_file, mc, output_name):
+    input_file = pd.read_csv(input_file, keep_default_na=False)
     master_df = pd.DataFrame()
     for enzyme in sorted(set(input_file.enzyme)):
         by_enzyme = input_file.loc[(input_file.enzyme == enzyme)]
@@ -110,12 +108,13 @@ def create_miscleavage(unfiltered_rpg_filename, mc, output_name):
     master_df.to_csv(output_name)
 
 # combining digests in parallel
-def create_parallel_digest(input_file, output_file, *enzymes):
+def create_parallel_digest(input_file, output_file, enzymes):
     filein = pd.read_csv(input_file)
     filein = filein.drop('Unnamed: 0', axis = 1) # does this need to be removed earlier in rpg output processing?
     parallel_df = pd.DataFrame()
     newname= ""
-    for protease_name in list(enzymes):
+    for protease_name in enzymes:
+        print(protease_name, type(protease_name))
         parallel_df = parallel_df.append(filein.loc[(filein.enzyme == protease_name)])
         newname +=(':'+protease_name)
         parallel_enzymes = newname[1:]
