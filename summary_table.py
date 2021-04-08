@@ -62,7 +62,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     summary_table['enzyme'] = enzymelist
     summary_table['total peptides'] = totallist
 
-    #MEDIAN PEPTIDE LENGTHS
+    # MEDIAN PEPTIDE LENGTHS
     length_dist = pd.DataFrame()
     length_dist['enzyme'] = xlist
     length_dist['peptide_size'] = peptide_lengths
@@ -80,7 +80,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     for name in filtered_rpg_files:
         inputfile = pd.read_csv(name)
         x = inputfile['enzyme'].tolist()
-        print(name)
+        # print(name)
         for enzyme in sorted(set(xlist)):
             testname.append(name)
             testenzyme.append(enzyme)
@@ -122,7 +122,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     protein_len_sum = 0
     for name in fasta_files:
         sizes = [len(rec) for rec in SeqIO.parse(name, "fasta")]
-        print(name, sum(sizes))
+        # print(name, sum(sizes))
         protein_len_sum += sum(sizes)
 
     for name in filtered_rpg_files:
@@ -185,7 +185,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     # changing the column orders so that mean length is after total no. of unfiltered pepts
     summary_table = summary_table[['enzyme', 'total peptides', 'mean length', 'median length', 'filtered peptides', 'coverage']]
 
-    summary_table.to_csv(output_name)
+    summary_table.to_csv(output_name, index=False)
 
 #create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 'method_summary.csv')
 
@@ -194,14 +194,14 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 # FILTERED RPG FILES ABOVE NEED TO HAVE BEEN FILTERED FOR RESIDUE FOR THIS TO WORK
 # COUNTING FREQ OF RESIDUES IN THE SEQUENCES
 
-#worked on but not complete
-def add_residue_coverage_column(residue, fasta_file,summary_table, output_table_name, *filtered_rpg_files):
+def add_residue_coverage_column(residue, fasta_files,summary_table, output_table_name, filtered_rpg_files):
     summary_table = pd.read_csv(summary_table)
     summary_table = summary_table.sort_values('enzyme')
     residue_freq_in_seq = 0
-    for rec in SeqIO.parse(fasta_file, "fasta"):
-        freq_in_fasta = rec.seq.count(residue)
-        residue_freq_in_seq += freq_in_fasta
+    for file in fasta_files:
+        for rec in SeqIO.parse(file, "fasta"):
+            freq_in_fasta = rec.seq.count(residue)
+            residue_freq_in_seq += freq_in_fasta
 
     # COUNTING FREQ OF RESIDUES IN FILTERED DATA
     enzymelist = []
@@ -237,4 +237,4 @@ def add_residue_coverage_column(residue, fasta_file,summary_table, output_table_
     # ADDING COVERAGE COLUMN TO EXISTING TABLE
     enzyme_table['residue_coverage_%'] = (enzyme_table['cumulative_freq'] / residue_freq_in_seq) * 100
     summary_table[residue+' coverage %'] = enzyme_table['residue_coverage_%'].tolist()
-    summary_table.to_csv(output_table_name)
+    summary_table.to_csv(output_table_name, index=False)
