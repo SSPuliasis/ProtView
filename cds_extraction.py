@@ -250,8 +250,8 @@ def process_gff3(input_gff_name):
     negstrand_cdsdf = negstrand_cdsdf.drop('prev_prot_start', axis=1)
 
     #save the cdsdf
-    posstrand_cdsdf.to_csv(input_gff_name+'_+_cdsdf.csv')
-    negstrand_cdsdf.to_csv(input_gff_name+'_-_cdsdf.csv')
+    posstrand_cdsdf.to_csv(input_gff_name+'_+_cdsdf.csv', index=False)
+    negstrand_cdsdf.to_csv(input_gff_name+'_-_cdsdf.csv', index=False)
 
 #example
 #process_gff3('at1g6600_at1g6610')

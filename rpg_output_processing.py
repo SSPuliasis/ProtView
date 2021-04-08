@@ -53,7 +53,7 @@ def process_rpg_output(input_name):
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('X')]
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('\*')]
     # save new table
-    og_rpg.to_csv(input_name + '.csv')
+    og_rpg.to_csv(input_name + '.csv', index=False)
     os.remove(input_name+'_out.fasta')
 
 #miscleavage needs to be done BEFORE any filtering/analysis
@@ -105,22 +105,21 @@ def create_miscleavage(input_file, mc, output_name):
         iso_points.append(iso_p)
     master_df['isoelectric_point'] = iso_points
     master_df['molecular_weight'] = mol_weights
-    master_df.to_csv(output_name)
+    master_df.to_csv(output_name, index=False)
 
 # combining digests in parallel
 def create_parallel_digest(input_file, output_file, enzymes):
     filein = pd.read_csv(input_file)
-    filein = filein.drop('Unnamed: 0', axis = 1) # does this need to be removed earlier in rpg output processing?
     parallel_df = pd.DataFrame()
     newname= ""
     for protease_name in enzymes:
-        print(protease_name, type(protease_name))
+        # print(protease_name, type(protease_name))
         parallel_df = parallel_df.append(filein.loc[(filein.enzyme == protease_name)])
         newname +=(':'+protease_name)
         parallel_enzymes = newname[1:]
     parallel_df['enzyme'] = parallel_enzymes
     parallel_df = pd.DataFrame.drop_duplicates(parallel_df)
-    parallel_df.to_csv(output_file)
+    parallel_df.to_csv(output_file, index=False)
     del(filein)
     del(parallel_df)
     print('The parallel enzyme combination for '+parallel_enzymes+' has been saved as '+output_file)
@@ -129,7 +128,7 @@ def create_parallel_digest(input_file, output_file, enzymes):
 def filter_by_length(min_len, max_len, input_file, output_file):
     unfiltered_rpg = pd.read_csv(input_file)
     filtered_rpg = unfiltered_rpg[(unfiltered_rpg.peptide_size <= max_len) & (unfiltered_rpg.peptide_size >= min_len)]
-    filtered_rpg.to_csv(output_file)
+    filtered_rpg.to_csv(output_file, index=False)
 
 # Filter peptides in the processed RPG output format (CSV) for peptides containing
 # certain amino acids
@@ -137,7 +136,7 @@ def filter_for_residue(residue, input_file, output_file):
     unfiltered_rpg = pd.read_csv(input_file)
     filtered_rpg = pd.DataFrame()
     filtered_rpg = unfiltered_rpg[unfiltered_rpg['sequence'].str.contains(residue)]
-    filtered_rpg.to_csv(output_file)
+    filtered_rpg.to_csv(output_file, index=False)
 
 # merge rpg outputs into one file
 def merge_files(output_file_name, *input_file_names):

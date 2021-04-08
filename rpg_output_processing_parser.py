@@ -62,9 +62,9 @@ if __name__ == '__main__':
         output_file_name_csv = str("{}.csv".format(output_file_name))#correct
         print("creating a parallel digest with {}, input:{}, output:{}.".format(
                 args.enzymes, recent_file_name_csv, output_file_name_csv))
-        for enz in args.enzymes:
-            print(enz)
-        print(type(args.enzymes))
+        # for enz in args.enzymes:
+            # print(enz)
+        # print(type(args.enzymes))
         rpg_output_processing.create_parallel_digest(recent_file_name_csv,
                                                      output_file_name_csv,
                                                      args.enzymes)
