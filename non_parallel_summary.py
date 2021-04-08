@@ -1,11 +1,11 @@
 import pandas as pd
 from Bio import SeqIO
 import statistics
+from memory_profiler import profile
 
-
-unfiltered_rpg_files = ["trypsin_fwd_rpg_unfiltered.csv", "trypsin_rev_rpg_unfiltered.csv", "chym_fwd_rpg_unfiltered.csv", "chym_rev_rpg_unfiltered.csv", "lysc_fwd_rpg_unfiltered.csv", "lysc_rev_rpg_unfiltered.csv", "aspn_fwd_rpg_unfiltered.csv", "aspn_rev_rpg_unfiltered.csv"]
-filtered_rpg_files = ["trypsin_fwd_rpg_filtered.csv", "trypsin_rev_rpg_filtered.csv", "chym_fwd_rpg_filtered.csv", "chym_rev_rpg_filtered.csv", "lysc_fwd_rpg_filtered.csv", "lysc_rev_rpg_filtered.csv", "aspn_fwd_rpg_filtered.csv", "aspn_rev_rpg_filtered.csv"]
-fasta_files = ['araport11_proteome_fwd.fasta', 'araport11_proteome_rev.fasta']
+unfiltered_rpg_files = ["trypsin_gluc_rpg.csv"]
+filtered_rpg_files = ["trypsin_gluc_rpg_len_7_35.csv"]
+fasta_files = ['at1g6600_at1g6610.fasta']
 
 # creating the summary table
 def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, output_name):
@@ -134,4 +134,4 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     summary_table.to_csv(output_name)
 
 
-#create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 'single_summary.csv')
+create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 'non_parallel_summary.csv')

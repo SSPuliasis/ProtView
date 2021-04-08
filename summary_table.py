@@ -4,20 +4,9 @@ import statistics
 import re
 
 # enter the names of all of the input files as lists
-#unfiltered_rpg_files = ["chr1_fwd_rpg_unfiltered.csv", "chr2_fwd_rpg_unfiltered.csv",
-                       # "chr3_fwd_rpg_unfiltered.csv", "chr4_fwd_rpg_unfiltered.csv",
-                        #"chr5_fwd_rpg_unfiltered.csv",
-                        #"chr1_rev_rpg_unfiltered.csv", "chr2_rev_rpg_unfiltered.csv",
-                        #"chr3_rev_rpg_unfiltered.csv", "chr4_rev_rpg_unfiltered.csv",
-                        #"chr5_rev_rpg_unfiltered.csv"]
-#filtered_rpg_files = ['chr1_fwd_rpg_filtered_len_cysteine.csv', 'chr2_fwd_rpg_filtered_len_cysteine.csv',
- #                     'chr3_fwd_rpg_filtered_len_cysteine.csv', 'chr4_fwd_rpg_filtered_len_cysteine.csv',
-  #                    'chr5_fwd_rpg_filtered_len_cysteine.csv',
-   #                   'chr1_rev_rpg_filtered_len_cysteine.csv', 'chr2_rev_rpg_filtered_len_cysteine.csv',
-    #                  'chr3_rev_rpg_filtered_len_cysteine.csv', 'chr4_rev_rpg_filtered_len_cysteine.csv',
-     #                 'chr5_rev_rpg_filtered_len_cysteine.csv']
-#fasta_files = ['chr1_fwd.fasta', 'chr2_fwd.fasta', 'chr3_fwd.fasta', 'chr4_fwd.fasta', 'chr5_fwd.fasta',
- #              'chr1_rev.fasta', 'chr2_rev.fasta', 'chr3_rev.fasta', 'chr4_rev.fasta', 'chr5_rev.fasta']
+#unfiltered_rpg_files = ["trypsin_gluc_rpg.csv"]
+#filtered_rpg_files = ["trypsin_gluc_rpg_len_7_35.csv"]
+#fasta_files = ['at1g6600_at1g6610.fasta']
 
 
 # creating the summary table
@@ -30,12 +19,12 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     testtotal = []
     for name in unfiltered_rpg_files:
         inputfile = pd.read_csv(name)
-        x = inputfile['enzyme'].tolist()
-        print(name)
-        for enzyme in sorted(set(x)):
+        xlist = inputfile['enzyme'].tolist()
+        for enzyme in sorted(set(xlist)):
             testname.append(name)
             testenzyme.append(enzyme)
-            testtotal.append(x.count(enzyme))
+            testtotal.append(xlist.count(enzyme))
+            peptide_lengths = inputfile['peptide_size'].tolist()
 
     temp_table = pd.DataFrame()
     temp_table["input"] = testname
@@ -75,10 +64,10 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 
     #MEDIAN PEPTIDE LENGTHS
     length_dist = pd.DataFrame()
-    length_dist['enzyme'] = x
+    length_dist['enzyme'] = xlist
     length_dist['peptide_size'] = peptide_lengths
     medians = []
-    for enzyme in sorted(set(x)):
+    for enzyme in sorted(set(xlist)):
         median_length = statistics.median(length_dist.loc[(length_dist.enzyme == enzyme)].peptide_size)
         #print(enzyme, median_length)
         medians.append(median_length)
@@ -92,10 +81,10 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
         inputfile = pd.read_csv(name)
         x = inputfile['enzyme'].tolist()
         print(name)
-        for enzyme in sorted(set(x)):
+        for enzyme in sorted(set(xlist)):
             testname.append(name)
             testenzyme.append(enzyme)
-            testtotal.append(x.count(enzyme))
+            testtotal.append(xlist.count(enzyme))
 
     temp_table = pd.DataFrame()
     temp_table["input"] = testname
@@ -193,10 +182,13 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
         'combined_digests']) / summary_table['total peptides']
     # summary_table
 
-    # changing the column orders so that mena length is after total no. of unfiltered pepts
+    # changing the column orders so that mean length is after total no. of unfiltered pepts
     summary_table = summary_table[['enzyme', 'total peptides', 'mean length', 'median length', 'filtered peptides', 'coverage']]
 
     summary_table.to_csv(output_name)
+
+#create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 'method_summary.csv')
+
 
 ##### WITH RESIDUE FILTERING - doesn't work yet for parallel combinations
 # FILTERED RPG FILES ABOVE NEED TO HAVE BEEN FILTERED FOR RESIDUE FOR THIS TO WORK
@@ -217,8 +209,8 @@ def add_residue_coverage_column(residue, fasta_file,summary_table, output_table_
     freq_table = pd.DataFrame()
     for name in filtered_rpg_files:
         rpg_file = pd.read_csv(name)
-        x = rpg_file['enzyme'].tolist()
-        for enzyme in sorted(set(x)):
+        xlist = rpg_file['enzyme'].tolist()
+        for enzyme in sorted(set(xlist)):
             temp_table = pd.DataFrame()
             positionslist = []
             parentisoforms = []
