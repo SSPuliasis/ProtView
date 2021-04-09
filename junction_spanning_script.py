@@ -37,7 +37,7 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
 
             junction_spanning = junction_spanning.drop(['Unnamed: 0'], axis=1)
 
-            junction_spanning.to_csv('+_'+output_file_name, index=False)
+            junction_spanning.to_csv('_+_'+output_file_name, index=False)
 
         # NEGATIVE STRAND
         elif '-' in filename:
@@ -74,4 +74,4 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
 
             junction_spanning = junction_spanning.drop(['Unnamed: 0'], axis=1)
 
-            junction_spanning.to_csv('-_'+output_file_name, index=False)
+            junction_spanning.to_csv('_-_'+output_file_name, index=False)
