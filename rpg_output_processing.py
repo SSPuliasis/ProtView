@@ -48,6 +48,7 @@ def process_rpg_output(input_name):
         split_description = item.split()
         parent_isoform.append(split_description[0])
     og_rpg['parent'] = parent_isoform
+    og_rpg['parent'] = og_rpg['parent'].str[1:]
     # removing rows with 'na' and sequences containing 'x' and '*'
     og_rpg = og_rpg.dropna()
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('X')]
