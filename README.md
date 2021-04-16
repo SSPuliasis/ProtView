@@ -2,14 +2,13 @@
 
 * [Overview](#overview)
 * [Installation](#installation)
-* [Modules](#modules)
-* [Input files](#input files)
+* [Input files](#input-files)
 * [Walk-through](#walk-through)
-    * [RPG digest](#rpg digest)
+    * [RPG digest](#rpg-digest)
     * [Peptide Processing](#peptide-processing)
     * [Coding Sequence Extraction](#coding-sequence-extraction)
     * [General Summary Statistics](#general-summary-statistics)
-    * [Genomic co-ordinate conversion](#genomic co-ordinate conversion)
+    * [Genomic co-ordinate conversion](#genomic-co-ordinate-conversion)
     * [Exon-exon Junction Covering Peptide Identification & Summary Statistics](#junction-covering-peptides--statistics)
 * [License](#licence)
 * [Contact](#contact)
@@ -103,7 +102,7 @@ be ran again without the parallel digest option.
 
 `python rpg_output_processing_parser.py example_data\at1g66600_at1g66610_rpg.fasta`
 
-# Coding Sequence Extraction
+## Coding Sequence Extraction
 Extracts coding sequence (CDS) information from gff3 files and prepares this information for the 
 downstream analysis. The resulting tables retain relevant information from the original gff3 file, with 
 the addition of relative protein sequence coordinates of the CDS start and end positions, unique CDS IDs, 
@@ -121,7 +120,7 @@ To extract CDS information from the gff3 file for the example Arabidopsis protei
 The resulting CDS information is saved separately for each strand in csv format 
 ('at1g66600_at1g66610_+\_cdsdf.csv, at1g66600_at1g66610\_-_cdsdf.csv,')
 
-# General Summary Statistics
+## General Summary Statistics
 This gives a table with columns for the total number of peptides generated, both before and after 
 filtering criteria were applied, peptide length distributions, and protein sequence coverage. The 
 calculation of residue coverage is optional and carried out if residues are provided by the user.
@@ -146,7 +145,7 @@ python summary_table_parser.py -fasta example_data\at1g66600_at1g66610.fasta
 ```
 
 
-# Genomic co-ordinate conversion
+## Genomic co-ordinate conversion
 Relative peptide coordinates from the digest output are converted to the outer bounds of their 
 corresponding coordinates on the genome. The resulting table contains the isoform, both genomic and 
 relative protein start and end positions for each peptide, and the enzymes used to generate the peptide. 
@@ -162,7 +161,7 @@ python gen_coords_parser.py example_data\at1g66600_at1g66610_rpg_len_7_35.csv ex
 example_data\at1g66600_at1g66610_-_cdsdf.csv
 ```
 
-#Junction-covering peptides & statistics
+## Junction-covering peptides & statistics
 Peptides are filtered for those that cover eon-exon junctions. The recommended input for identifying 
 junction-covering peptides is the filtered digest results. Positive outcomes are saved in the same csv 
 format as the digest results, with an additional column for junction location.
@@ -209,7 +208,7 @@ example_data\at1g66600_at1g66610_+_cdsdf.csv example_data\at1g66600_at1g66610_-_
 example_data\junction_summary.csv
 ```
 
-#Licence
+# Licence
 
-#Contact
+# Contact
 For further information please contact <SSPuliasi@dundee.ac.uk>
