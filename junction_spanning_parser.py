@@ -18,7 +18,8 @@ if __name__ == '__main__':
 
     if args.rpg_file and args.cds_files and args.output_name:
         print('filtering {} for junction covering peptides'.format(args.rpg_file))
+        output_name_without_extension = args.output_name.replace('.csv', '')
         junction_spanning_script.junction_spanning(args.cds_files, args.rpg_file, args.output_name)
-        print('output: _+_{}, _-_{}'.format(args.output_name, args.output_name))
+        print('output: {}_+_.csv, {}_-_.csv'.format(output_name_without_extension, output_name_without_extension))
 
 

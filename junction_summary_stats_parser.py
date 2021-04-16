@@ -8,7 +8,7 @@ if __name__ == '__main__':
         description="summary statistics for peptides covering exon-exon junctions")
 
     parser.add_argument('-pept', '--junction_spanning_peptides', metavar='', nargs='+',
-                        help='csv file containing the peptides to be filtered')
+                        help='csv files containing the peptides to be filtered')
     parser.add_argument('-cds', '--cds_files', metavar='', nargs='+',
                         help='both csv files containing extracted coding sequences for each DNA strand, ending in +/-_cdsdf.csv')
     parser.add_argument('-out', '--output_name', default='junction_summary.csv', metavar='',

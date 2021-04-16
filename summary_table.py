@@ -17,14 +17,18 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     testname = []
     testenzyme = []
     testtotal = []
+    xlist = []
+    all_peptide_lengths = []
     for name in unfiltered_rpg_files:
         inputfile = pd.read_csv(name)
-        xlist = inputfile['enzyme'].tolist()
+        ylist = inputfile['enzyme'].tolist()
+        xlist.extend(ylist)
+        peptide_lengths = inputfile['peptide_size'].tolist()
+        all_peptide_lengths.extend(peptide_lengths)
         for enzyme in sorted(set(xlist)):
             testname.append(name)
             testenzyme.append(enzyme)
             testtotal.append(xlist.count(enzyme))
-            peptide_lengths = inputfile['peptide_size'].tolist()
 
     temp_table = pd.DataFrame()
     temp_table["input"] = testname
@@ -64,12 +68,11 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 
     # MEDIAN PEPTIDE LENGTHS
     length_dist = pd.DataFrame()
-    length_dist['enzyme'] = xlist
-    length_dist['peptide_size'] = peptide_lengths
+    length_dist['enzyme'] = sorted(xlist)
+    length_dist['peptide_size'] = all_peptide_lengths
     medians = []
     for enzyme in sorted(set(xlist)):
         median_length = statistics.median(length_dist.loc[(length_dist.enzyme == enzyme)].peptide_size)
-        #print(enzyme, median_length)
         medians.append(median_length)
     summary_table['median length']  = medians
 
@@ -77,10 +80,14 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     testname = []
     testenzyme = []
     testtotal = []
+    xlist = []
+    all_peptide_lengths = []
     for name in filtered_rpg_files:
         inputfile = pd.read_csv(name)
-        x = inputfile['enzyme'].tolist()
-        # print(name)
+        ylist = inputfile['enzyme'].tolist()
+        xlist.extend(ylist)
+        peptide_lengths = inputfile['peptide_size'].tolist()
+        all_peptide_lengths.extend(peptide_lengths)
         for enzyme in sorted(set(xlist)):
             testname.append(name)
             testenzyme.append(enzyme)

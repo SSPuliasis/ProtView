@@ -1,6 +1,7 @@
 import pandas as pd
 
 def junction_spanning(cds_files, rpg_file, output_file_name):
+    output_name_without_extension = output_file_name.replace('.csv', '')
     for filename in cds_files:
         # POSITIVE STRAND
         if '+' in filename:
@@ -35,9 +36,8 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
                             row['intron_id'] = junctions_dict[isoform, junction]['intron_id']
                             junction_spanning = junction_spanning.append(row)
 
-            junction_spanning = junction_spanning.drop(['Unnamed: 0'], axis=1)
 
-            junction_spanning.to_csv('_+_'+output_file_name, index=False)
+            junction_spanning.to_csv(output_name_without_extension+'_+_.csv', index=False)
 
         # NEGATIVE STRAND
         elif '-' in filename:
@@ -72,6 +72,4 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
                             row['intron_id'] = junctions_dict[isoform, junction]['intron_id']
                             junction_spanning = junction_spanning.append(row)
 
-            junction_spanning = junction_spanning.drop(['Unnamed: 0'], axis=1)
-
-            junction_spanning.to_csv('_-_'+output_file_name, index=False)
+            junction_spanning.to_csv(output_name_without_extension+'_-_.csv', index=False)

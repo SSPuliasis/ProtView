@@ -54,7 +54,7 @@ def calculate_gen_coords(peptides_file, cds_files):
                 if dict_cds_id == df_cds_id:
                     if cds_parent == dict_key[0]:
                         pos_number = dict_key[1]
-                        gen_position = first_start + cum_intron + 3 * (pos_number - 1) + 2
+                        gen_position = first_start + cum_intron + 3 * (pos_number - 1)
                         merged_gen[cds_parent, gen_position] = {}
                         merged_gen[cds_parent, gen_position] = df_cds_id
                         # print('end positions', prot_position, 'corresponds to', gen_position, 'in', cdsid)
@@ -89,7 +89,7 @@ def calculate_gen_coords(peptides_file, cds_files):
                 if dict_cds_id == df_cds_id:
                     if cds_parent == dict_key[0]:
                         pos_number = dict_key[1]
-                        gen_position = first_start + cum_intron + 3 * (pos_number - 1)
+                        gen_position = first_start + cum_intron + 3 * (pos_number - 1) +2
                         merged_gen[cds_parent, gen_position] = {}
                         merged_gen[cds_parent, gen_position] = df_cds_id
                         # print('start position', prot_position, 'corresponds to', gen_position, 'in', cdsid)
