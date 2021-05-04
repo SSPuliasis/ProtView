@@ -61,8 +61,8 @@ def calculate_gen_coords(peptides_file, cds_files):
 
         for index, cds_row in processed_cds.iterrows():
             peptides_by_enzyme_parent = peptides_by_enzyme.loc[(peptides_by_enzyme['parent'].str.endswith(cds_row.Parent))
-                                                               & (peptides_by_enzyme.peptide_start <= cds_row.protein_end)
-                                                               & (peptides_by_enzyme.peptide_start >= cds_row.protein_start)]
+                                                               & (peptides_by_enzyme.cleavage_position <= cds_row.protein_end)
+                                                               & (peptides_by_enzyme.cleavage_position >= cds_row.protein_start)]
             for pos in peptides_by_enzyme_parent.cleavage_position:
                 merged_prot[cds_row.Parent, pos] = cds_row.cds_id
 
@@ -116,8 +116,8 @@ def calculate_gen_coords(peptides_file, cds_files):
 
         for index, cds_row in processed_cds.iterrows():
             peptides_by_enzyme_parent = peptides_by_enzyme.loc[(peptides_by_enzyme['parent'].str.endswith(cds_row.Parent))
-                                                               & (peptides_by_enzyme.peptide_start >= cds_row.protein_end)
-                                                               & (peptides_by_enzyme.peptide_start <= cds_row.protein_start)]
+                                                               & (peptides_by_enzyme.cleavage_position >= cds_row.protein_end)
+                                                               & (peptides_by_enzyme.cleavage_position <= cds_row.protein_start)]
             for pos in peptides_by_enzyme_parent.cleavage_position:
                 merged_prot[cds_row.Parent, pos] = cds_row.cds_id
 
@@ -141,8 +141,8 @@ def calculate_gen_coords(peptides_file, cds_files):
 
         for index, cds_row in processed_cds.iterrows():
             peptides_by_enzyme_parent = peptides_by_enzyme.loc[(peptides_by_enzyme['parent'].str.endswith(cds_row.Parent))
-                                                               & (peptides_by_enzyme.peptide_start >= cds_row.protein_end)
-                                                               & (peptides_by_enzyme.peptide_start <= cds_row.protein_start)]
+                                                               & (peptides_by_enzyme.peptide_end >= cds_row.protein_end)
+                                                               & (peptides_by_enzyme.peptide_end <= cds_row.protein_start)]
             for pos in peptides_by_enzyme_parent.peptide_start:
                 merged_prot[cds_row.Parent, pos] = cds_row.cds_id
 

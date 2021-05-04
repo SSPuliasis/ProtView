@@ -19,16 +19,10 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
 
             dict_df = dict_df.set_index(['Isoform', 'junction'])
             junctions_dict = dict_df.to_dict('index')
-    #following chunk has already been done in rpg processing script?
-            parent_isoform = []
-            for item in processed_rpg['FASTA_description']:
-                split_description = item.split()
-                parent_isoform.append(split_description[0])
-            processed_rpg['parent'] = parent_isoform
 
             junction_spanning = pd.DataFrame()
             for isoform, junction in junctions_dict.keys():
-                rpg_by_isoform = processed_rpg[processed_rpg['parent'] == '>' + isoform]
+                rpg_by_isoform = processed_rpg[processed_rpg['parent'] == isoform]
                 for index, row in rpg_by_isoform.iterrows():
                     if row['cleavage_position'] > junction:
                         if row['peptide_start'] < junction:
@@ -56,15 +50,9 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
             dict_df = dict_df.set_index(['Isoform', 'junction'])
             junctions_dict = dict_df.to_dict('index')
 
-            parent_isoform = []
-            for item in processed_rpg['FASTA_description']:
-                split_description = item.split()
-                parent_isoform.append(split_description[0])
-            processed_rpg['parent'] = parent_isoform
-
             junction_spanning = pd.DataFrame()
             for isoform, junction in junctions_dict.keys():
-                rpg_by_isoform = processed_rpg[processed_rpg['parent'] == '>' + isoform]
+                rpg_by_isoform = processed_rpg[processed_rpg['parent'] == isoform]
                 for index, row in rpg_by_isoform.iterrows():
                     if row['cleavage_position'] > junction:
                         if row['peptide_start'] < junction:
