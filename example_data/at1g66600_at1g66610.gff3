@@ -1,0 +1,27 @@
+##gff-version 3
+##sequence-region Chr1 24846111 24851755
+Chr1	Araport11	mRNA	24848320	24849543	.	+	.	_Curator_summary=A member of WRKY Transcription Factor%3B Group III. Involved in the regulation of plant responses to ABA and drought stress.;Dbxref=PMID:11118137,gene:2195164,UniProt:Q9C6H5;ID=AT1G66600.1;_Computational_description=ABA overly sensitive mutant 3 (ABO3)%3B CONTAINS InterPro DOMAIN/s: DNA-binding WRKY (InterPro:IPR003657)%3B BEST Arabidopsis thaliana protein match is: WRKY DNA-binding protein 64 (TAIR:AT1G66560.1)%3B Has 3139 Blast hits to 2726 proteins in 156 species: Archae - 0%3B Bacteria - 0%3B Metazoa - 0%3B Fungi - 0%3B Plants - 3128%3B Viruses - 0%3B Other Eukaryotes - 11 (source: NCBI BLink).;_Symbol=ABO3;_Conf_class=3;Name=AT1G66600.1;_Full_name=ABA overly sensitive mutant 3;Note=ABA overly sensitive mutant 3;_Conf_rating=****;Alias=ATWRKY63,WRKY63,WRKY DNA-binding protein 63
+Chr1	Araport11	five_prime_UTR	24848320	24848405	.	+	.	Name=ABO3:five_prime_UTR:1;ID=AT1G66600:five_prime_UTR:1;Parent=AT1G66600.1
+Chr1	Araport11	exon	24848320	24848650	.	+	.	Name=ABO3:exon:1;ID=AT1G66600:exon:1;Parent=AT1G66600.1
+Chr1	Araport11	CDS	24848406	24848650	.	+	0	Name=ABO3:CDS:1;ID=AT1G66600:CDS:1;Parent=AT1G66600.1
+Chr1	Araport11	exon	24848737	24848859	.	+	.	Name=ABO3:exon:2;ID=AT1G66600:exon:2;Parent=AT1G66600.1
+Chr1	Araport11	CDS	24848737	24848859	.	+	1	Name=ABO3:CDS:2;ID=AT1G66600:CDS:2;Parent=AT1G66600.1
+Chr1	Araport11	CDS	24848978	24849335	.	+	1	Name=ABO3:CDS:3;ID=AT1G66600:CDS:3;Parent=AT1G66600.1
+Chr1	Araport11	exon	24848978	24849543	.	+	.	Name=ABO3:exon:3;ID=AT1G66600:exon:3;Parent=AT1G66600.1
+Chr1	Araport11	three_prime_UTR	24849336	24849543	.	+	.	Name=ABO3:three_prime_UTR:1;ID=AT1G66600:three_prime_UTR:1;Parent=AT1G66600.1
+Chr1	Araport11	mRNA	24849716	24851450	.	-	.	_Conf_class=1;Name=AT1G66610.2;Note=TRAF-like superfamily protein;Dbxref=gene:6530296501,UniProt:Q9C6H4-2;ID=AT1G66610.2;_Conf_rating=*****;_Computational_description=TRAF-like superfamily protein%3B FUNCTIONS IN: zinc ion binding%3B INVOLVED IN: multicellular organismal development%2C ubiquitin-dependent protein catabolic process%3B LOCATED IN: nucleus%3B EXPRESSED IN: sperm cell%3B CONTAINS InterPro DOMAIN/s: Zinc finger%2C RING-type (InterPro:IPR001841)%2C Seven-in-absentia protein%2C sina (InterPro:IPR004162)%3B BEST Arabidopsis thaliana protein match is: Protein with RING/U-box and TRAF-like domains (TAIR:AT1G66620.1).
+Chr1	Araport11	three_prime_UTR	24849716	24850220	.	-	.	Name=AT1G66610:three_prime_UTR:1;ID=AT1G66610:three_prime_UTR:1;Parent=AT1G66610.2
+Chr1	Araport11	exon	24849716	24850412	.	-	.	Name=AT1G66610:exon:3;ID=AT1G66610:exon:3;Parent=AT1G66610.2
+Chr1	Araport11	CDS	24850221	24850412	.	-	0	Name=AT1G66610:CDS:3;ID=AT1G66610:CDS:3;Parent=AT1G66610.2
+Chr1	Araport11	CDS	24850718	24851032	.	-	0	Name=AT1G66610:CDS:2;ID=AT1G66610:CDS:2;Parent=AT1G66610.2
+Chr1	Araport11	CDS	24851244	24851450	.	-	0	Name=AT1G66610:CDS:1;ID=AT1G66610:CDS:1;Parent=AT1G66610.2
+Chr1	Araport11	exon	24850718	24851032	.	-	.	Name=AT1G66610:exon:2;ID=AT1G66610:exon:2;Parent=AT1G66610.2
+Chr1	Araport11	exon	24851244	24851450	.	-	.	Name=AT1G66610:exon:1;ID=AT1G66610:exon:1;Parent=AT1G66610.2
+###
+Chr1	Araport11	mRNA	24849716	24851450	.	-	.	_Conf_class=6;Name=AT1G66610.1;Note=TRAF-like superfamily protein;Dbxref=gene:2195169,UniProt:Q9C6H4;ID=AT1G66610.1;_Conf_rating=**;_Computational_description=TRAF-like superfamily protein%3B FUNCTIONS IN: ubiquitin-protein ligase activity%2C zinc ion binding%3B INVOLVED IN: multicellular organismal development%2C protein ubiquitination%2C ubiquitin-dependent protein catabolic process%3B LOCATED IN: nucleus%3B EXPRESSED IN: sperm cell%3B CONTAINS InterPro DOMAIN/s: TRAF-like (InterPro:IPR008974)%2C Seven-in-absentia protein%2C TRAF-like domain (InterPro:IPR018121)%2C Zinc finger%2C SIAH-type (InterPro:IPR013010)%2C Seven In Absentia Homolog-type (InterPro:IPR013323)%2C Seven-in-absentia protein%2C sina (InterPro:IPR004162)%3B BEST Arabidopsis thaliana protein match is: Protein with RING/U-box and TRAF-like domains (TAIR:AT1G66620.1)%3B Has 888 Blast hits to 792 proteins in 98 species: Archae - 0%3B Bacteria - 0%3B Metazoa - 348%3B Fungi - 3%3B Plants - 515%3B Viruses - 0%3B Other Eukaryotes - 22 (source: NCBI BLink).
+Chr1	Araport11	exon	24849716	24850294	.	-	.	Name=AT1G66610:exon:4;ID=AT1G66610:exon:4;Parent=AT1G66610.1
+Chr1	Araport11	CDS	24849716	24850294	.	-	0	Name=AT1G66610:CDS:4;ID=AT1G66610:CDS:4;Parent=AT1G66610.1
+Chr1	Araport11	CDS	24850718	24851032	.	-	0	Name=AT1G66610:CDS:2.1;ID=AT1G66610:CDS:2.1;Parent=AT1G66610.1
+Chr1	Araport11	exon	24850718	24851032	.	-	.	Parent=AT1G66610.1
+Chr1	Araport11	CDS	24851244	24851450	.	-	0	Name=AT1G66610:CDS:1.1;ID=AT1G66610:CDS:1.1;Parent=AT1G66610.1
+Chr1	Araport11	exon	24851244	24851450	.	-	.	Parent=AT1G66610.1
