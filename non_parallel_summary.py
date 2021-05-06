@@ -1,7 +1,6 @@
 import pandas as pd
 from Bio import SeqIO
 import statistics
-from memory_profiler import profile
 
 unfiltered_rpg_files = ["trypsin_gluc_rpg.csv"]
 filtered_rpg_files = ["trypsin_gluc_rpg_len_7_35.csv"]

@@ -4,7 +4,7 @@
 
 import pandas as pd
 from matplotlib_venn import venn2, venn2_circles, venn2_unweighted
-% matplotlib inline
+#% matplotlib inline
 
 def compare_seqs(enzyme1, enzyme2, *inputfilenames):
     # obtain set lists of sequences for each enzyme
