@@ -1,3 +1,5 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+
 # Table of Contents
 
 * [Overview](#overview)
@@ -10,7 +12,6 @@
     * [General Summary Statistics](#general-summary-statistics)
     * [Genomic co-ordinate conversion](#genomic-co-ordinate-conversion)
     * [Exon-exon Junction Covering Peptide Identification & Summary Statistics](#junction-covering-peptides--statistics)
-* [License](#licence)
 * [Contact](#contact)
 
 # Overview
