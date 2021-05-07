@@ -33,11 +33,11 @@ between different digestions.
 Supported Python version: 3.7.4
 
 ProtView requires the following packages:
-* rpg version 1.1.0
-* pandas version 0.25.1
-* gffpandas version 1.2.0
-* numpy version 1.16.5
-* Bio, shutil, os, re, statistics
+* [rpg](https://rapid-peptide-generator.readthedocs.io/en/latest/userguide.html#installation) version 1.1.0
+* [pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html?highlight=install) version 0.25.1
+* [gffpandas](https://gffpandas.readthedocs.io/en/latest/installation.html) version 1.2.0
+* [numpy](https://numpy.org/install/) version 1.16.5
+* [BioPython](https://biopython.org/wiki/Download) version 1.76
 
 The zip file can be downloaded from this github repository. Once downloaded, the working directory needs to be set to
 the ProtView directory that contains this README and the scripts.
@@ -83,8 +83,8 @@ Required Arguments:
 
 Options:
 * **-mc, --miscleavage**:  Mis-cleavage value, default = 0
-* **-e, --enzymes**: Enzymes to create a parallel digest with
-* **-r, --residue**: Residue to be filtered for
+* **-e, --enzymes**: Enzymes to create a parallel digest with, default = none
+* **-r, --residue**: Residue to be filtered for, default = none
 * **-min, --min_len**: Minimum peptide length to filter for, default = 7
 * **-max, --max_len**: Maximum peptide length to filter for, default = 35
 
@@ -200,7 +200,7 @@ junction coverage percentage, which is the percentage of the total junctions ava
 being examined that are covered by an enzyme. 
 
 Arguments:
-* **-pept, --junction_spanning_peptides**: csv file containing the peptides to be filtered
+* **-pept, --junction_spanning_peptides**: csv files containing the junction covering peptides
 * **-cds, --cds_files**: both csv files containing extracted coding sequences for each DNA strand, 
 ending in +/-_cdsdf.csv
 * **-out, --output_name**: desired name of output csv summary file, default: junction_summary.csv
