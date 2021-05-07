@@ -74,7 +74,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     for enzyme in sorted(set(xlist)):
         median_length = statistics.median(length_dist.loc[(length_dist.enzyme == enzyme)].peptide_size)
         medians.append(median_length)
-    summary_table['median length']  = medians
+    summary_table['median length'] = medians
 
     #  TOTAL FILTERED PEPTIDES GENERATED
     testname = []

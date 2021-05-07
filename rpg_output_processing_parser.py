@@ -8,7 +8,7 @@ import argparse
 import rpg_output_processing
 
 if __name__ == '__main__':
-    print("rpg_output_processing has been imported")
+    #print("rpg_output_processing has been imported")
     parser = argparse.ArgumentParser(
             description="process peptides generated in silico by RPG")
     

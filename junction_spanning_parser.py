@@ -2,7 +2,7 @@ import argparse
 import junction_spanning_script
 
 if __name__ == '__main__':
-    print("junction_spanning has been imported")
+    #print("junction_spanning has been imported")
 
     parser = argparse.ArgumentParser(
         description="filter for peptides that cover exon-exon junctions")

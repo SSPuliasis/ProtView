@@ -1,7 +1,7 @@
 import argparse
 import gen_coords
 if __name__ == '__main__':
-    print("gen_coords has been imported")
+    #print("gen_coords has been imported")
 
     parser = argparse.ArgumentParser(
         description="filter for peptides that cover exon-exon junctions")

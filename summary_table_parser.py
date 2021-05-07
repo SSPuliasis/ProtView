@@ -2,7 +2,7 @@ import argparse
 import summary_table
 
 if __name__ == '__main__':
-    print("summary_table funtions have been imported")
+    #print("summary_table funtions have been imported")
 
     parser = argparse.ArgumentParser(
         description="generates a table of summary statistics")

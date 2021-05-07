@@ -2,7 +2,7 @@ import argparse
 import cds_extraction
 
 if __name__ == '__main__':
-    print("strand_dependent_gff3_processing has been imported")
+    #print("strand_dependent_gff3_processing has been imported")
 
     parser = argparse.ArgumentParser(
         description="extract CDS information from a gff3 file")

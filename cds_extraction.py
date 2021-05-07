@@ -205,8 +205,9 @@ def process_gff3(input_gff_name):
             endslist_protein.append(position)
     posstrand_cdsdf['protein_end'] = endslist_protein
     posstrand_cdsdf['protein_end'] = posstrand_cdsdf['protein_end'].astype(int)
-    #posstrand_cdsdf = posstrand_cdsdf.drop('new_start', axis=1)  # remove columns that aren't necessary anymore
+    posstrand_cdsdf = posstrand_cdsdf.drop('new_start', axis=1)  # remove columns that aren't necessary anymore
     posstrand_cdsdf = posstrand_cdsdf.drop('new_end', axis=1)
+    posstrand_cdsdf = posstrand_cdsdf.drop('my_count', axis=1)
 
     ends = negstrand_cdsdf['new_end']
     endslist_dna = ends.tolist()
@@ -223,6 +224,7 @@ def process_gff3(input_gff_name):
     negstrand_cdsdf['protein_end'] = negstrand_cdsdf['protein_end'].astype(int)
     negstrand_cdsdf = negstrand_cdsdf.drop('new_start', axis=1)  # remove columns that aren't necessary anymore
     negstrand_cdsdf = negstrand_cdsdf.drop('new_end', axis=1)
+    negstrand_cdsdf = negstrand_cdsdf.drop('my_count', axis=1)
 
     # adding +1 to protein start positions to avoid overlap
     posstrand_cdsdf['prev_prot_end'] = posstrand_cdsdf['protein_end'].shift()

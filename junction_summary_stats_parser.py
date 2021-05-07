@@ -2,7 +2,7 @@ import argparse
 import junction_summary_stats
 
 if __name__ == '__main__':
-    print("junction_summary_stats has been imported")
+    #print("junction_summary_stats has been imported")
 
     parser = argparse.ArgumentParser(
         description="summary statistics for peptides covering exon-exon junctions")

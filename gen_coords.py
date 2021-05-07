@@ -12,6 +12,7 @@ def calculate_gen_coords(peptides_file, cds_files):
         else:
             print('error in cds file names, they should end with _+/-_cdsdf')
 
+    print(posstrand_cdsdf, negstrand_cdsdf)
     ############################
     # POSITIVE STRAND
     # importing and tidying up the datasets
