@@ -1,4 +1,5 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+correction ![GitHub last commit](https://img.shields.io/github/last-commit/SSPuliasis/ProtView)
 
 # Table of Contents
 
@@ -213,8 +214,6 @@ example_data\parallel_junction_peptides_+_.csv example_data\parallel_junction_pe
 example_data\at1g66600_at1g66610_+_cdsdf.csv example_data\at1g66600_at1g66610_-_cdsdf.csv -out 
 example_data\junction_summary.csv
 ```
-
-# Licence
 
 # Contact
 For further information please contact <SSPuliasi@dundee.ac.uk>
