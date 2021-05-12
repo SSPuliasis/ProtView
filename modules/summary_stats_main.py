@@ -3,12 +3,6 @@ from Bio import SeqIO
 import statistics
 import re
 
-# enter the names of all of the input files as lists
-#unfiltered_rpg_files = ["trypsin_gluc_rpg.csv"]
-#filtered_rpg_files = ["trypsin_gluc_rpg_len_7_35.csv"]
-#fasta_files = ['at1g6600_at1g6610.fasta']
-
-
 # creating the summary table
 def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, output_name):
     summary_table = pd.DataFrame()
@@ -18,13 +12,16 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     testenzyme = []
     testtotal = []
     xlist = []
-    all_peptide_lengths = []
+    all_lengths_dist = pd.DataFrame()
+
     for name in unfiltered_rpg_files:
         inputfile = pd.read_csv(name)
         ylist = inputfile['enzyme'].tolist()
         xlist.extend(ylist)
-        peptide_lengths = inputfile['peptide_size'].tolist()
-        all_peptide_lengths.extend(peptide_lengths)
+        length_dist_2 =pd.DataFrame()
+        length_dist_2['enzyme'] =inputfile.enzyme
+        length_dist_2['peptide_size']=inputfile.peptide_size
+        all_lengths_dist = all_lengths_dist.append(length_dist_2)
         for enzyme in sorted(set(xlist)):
             testname.append(name)
             testenzyme.append(enzyme)
@@ -67,12 +64,9 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     summary_table['total peptides'] = totallist
 
     # MEDIAN PEPTIDE LENGTHS
-    length_dist = pd.DataFrame()
-    length_dist['enzyme'] = sorted(xlist)
-    length_dist['peptide_size'] = all_peptide_lengths
     medians = []
     for enzyme in sorted(set(xlist)):
-        median_length = statistics.median(length_dist.loc[(length_dist.enzyme == enzyme)].peptide_size)
+        median_length = statistics.median(all_lengths_dist.loc[(all_lengths_dist.enzyme == enzyme)].peptide_size)
         medians.append(median_length)
     summary_table['median length'] = medians
 

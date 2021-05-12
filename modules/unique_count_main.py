@@ -8,7 +8,6 @@ def add_unique_pept_column(table_name, rpg_files):
     for enzyme in sorted(set(summary_table.enzyme)):
         merged_by_enzyme = pd.DataFrame()
         for name in rpg_files:
-            print(name)
             seqs_to_check = pd.read_csv(name)
             by_enzyme = seqs_to_check.loc[seqs_to_check['enzyme'] == enzyme]
             merged_by_enzyme = merged_by_enzyme.append(by_enzyme)
