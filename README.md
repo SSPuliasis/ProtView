@@ -11,6 +11,7 @@
     * [General Summary Statistics](#general-summary-statistics)
     * [Genomic co-ordinate conversion](#genomic-co-ordinate-conversion)
     * [Exon-exon Junction Covering Peptide Identification & Summary Statistics](#junction-covering-peptides--statistics)
+    * [Unique Peptide Counter](#unique-peptide-counter)
 * [Contact](#contact)
 
 # Overview
@@ -25,7 +26,7 @@ the in-silico digestion. It then maps the digested proteins back to transcripts/
 which allows the comparisons of the transcript/ gene sequences visible to proteomics experiments 
 between different digestions.
 
-![alt text](./README_images/Protview_general.png)
+![alt text](./README_images/protview_context.png)
 
 **Figure 1:** outline of the ProtView workflow
 
