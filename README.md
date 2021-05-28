@@ -39,6 +39,7 @@ ProtView requires the following packages:
 * [gffpandas](https://gffpandas.readthedocs.io/en/latest/installation.html) version 1.2.0
 * [numpy](https://numpy.org/install/) version 1.16.5
 * [BioPython](https://biopython.org/wiki/Download) version 1.76
+
 To install the dependencies please follow the instructions in their documentation.
 
 The ProtView repository can be downloaded as a zip file or cloned. To clone, use the command:
@@ -105,9 +106,6 @@ To filter the individual enzyme digests, it must be ran again without the parall
 * When creating a parallel digest, the enzymes need to entered exactly as they are in the RPG output (e.g. 'Asp-N'
  and not 'aspn', asp-n', 'Asp-n' etc.). ProtView will not raise an error if an incorrect enzyme name is given, however 
  the output will be inaccurate and not represent the parallel digest.
-* Parallel digests are automatically saved as <input file name>_parallel_<filtering criteria>.csv. If working with 
- more than one parallel digest, the file names must be changed manually after the creation of each parallel combination, 
- to avoid them being overwritten.
 
 ## Coding Sequence Extraction
 Extracts coding sequence (CDS) information from gff3 files and prepares this information for the 
@@ -149,8 +147,8 @@ To generate summary statistics of the example data for the individual and parall
 Cysteine (C), Serine (S) and Threonine (T) coverage:
 ```
 python path\to\ProtView\protview.py summary_stats -fasta at1g66600_at1g66610.fasta -u at1g66600_at1g66610_rpg.csv 
-at1g66600_at1g66610_rpg_parallel.csv -f at1g66600_at1g66610_rpg_len_7_35.csv 
-at1g66600_at1g66610_rpg_parallel_len_7_35.csv -r C S T
+at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel.csv -f at1g66600_at1g66610_rpg_len_7_35.csv 
+at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel_len_7_35.csv -r C S T
 ```
 
 ## Genomic co-ordinate conversion
@@ -168,7 +166,7 @@ Arguments:
 
 To calculate, the genomic coordinates of the filtered parallel Trypsin:Asp-N digest in our example:
 ```
-python path\to\ProtView\protview.py gen_coords at1g66600_at1g66610_rpg_parallel_len_7_35.csv 
+python path\to\ProtView\protview.py gen_coords at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel_len_7_35.csv 
 at1g66600_at1g66610_+_cdsdf.csv at1g66600_at1g66610_-_cdsdf.csv
 ```
 **Note**:
@@ -195,7 +193,7 @@ at1g66600_at1g66610_+_cdsdf.csv at1g66600_at1g66610_-_cdsdf.csv single_digest_ju
 To filter the parallel digest, first argument changes to the csv containing peptides from this digest and another 
 output name is provided
 ```
-python path\to\ProtView\protview.py junction_peptides at1g66600_at1g66610_rpg_parallel_len_7_35.csv 
+python path\to\ProtView\protview.py junction_peptides at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel_len_7_35.csv 
 at1g66600_at1g66610_+_cdsdf.csv at1g66600_at1g66610_-_cdsdf.csv parallel_digest_junction_peptides.csv
 ```
 By giving 'single_digest_junction_peptides.csv' as the output argument, ProtView adds '\_+\_' or '\_-\_' to the 
@@ -231,7 +229,7 @@ Arguments:
 To calculate the  number of unique peptides in the example digest and append it to the proteomic summary table:
 ```
 python path\to\ProtView\protview.py unique_count summary_table.csv at1g66600_at1g66610_rpg_len_7_35.csv 
-at1g66600_at1g66610_rpg_parallel_len_7_35.csv
+at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel_len_7_35.csv
 ```
 # Contact
 For further information please contact <SSPuliasi@dundee.ac.uk>

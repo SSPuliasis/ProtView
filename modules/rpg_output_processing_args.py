@@ -40,7 +40,7 @@ def main():
     recent_file_name_csv = str("{}.csv".format(input_name))
     rpg_output_processing_main.process_rpg_output(recent_file_name)
 
-    #only create MC is a value is provided
+#only create MC is a value is provided
     if args.miscleavage > 0:
         output_file_name = str("{}_mc{}".format(input_name, args.miscleavage))
         output_file_name_csv = str("{}.csv".format(output_file_name))
@@ -57,10 +57,12 @@ def main():
 
     #create parallel
     if args.enzymes:
-        output_file_name = str("{}_parallel".format(recent_file_name))#correct
+        merged_enzymes = "_".join(args.enzymes)
+        output_file_name = str("{}_{}_parallel".format(recent_file_name, merged_enzymes))#correct
         output_file_name_csv = str("{}.csv".format(output_file_name))#correct
         print("creating a parallel digest with {}, input:{}, output:{}.".format(
                 args.enzymes, recent_file_name_csv, output_file_name_csv))
+
         # for enz in args.enzymes:
             # print(enz)
         # print(type(args.enzymes))
@@ -93,5 +95,4 @@ def main():
                                                  output_file_name_csv)
 
     #merge files - should probably be moved
-
 
