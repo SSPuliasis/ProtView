@@ -30,30 +30,14 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     temp_table = pd.DataFrame()
     temp_table["input"] = testname
     temp_table['enzyme'] = testenzyme
-    temp_table['total peptides'] = testtotal
+    temp_table['total_peptides'] = testtotal
     # they need to be ordered by enzyme before the lists are compared
     temp_table = temp_table.sort_values(by=['enzyme'])
-
-    # back to lists, but ordered by enzyme
-    testenzyme = temp_table['enzyme'].tolist()
-    testtotal = temp_table['total peptides'].tolist()
-
-    for index, (a, c) in enumerate(zip(testenzyme, testtotal)):
-        # print(index, a, c)
-        # print(testenzyme[index], testenzyme[index - 1], testtotal[index])
-        if testenzyme[index] == testenzyme[index - 1]:
-            if testtotal[index] != testtotal[index - 1]:
-                testtotal[index] += testtotal[index - 1]
-        elif testenzyme[index] != testenzyme[index - 1]:
-            continue
-
-    temp_table['enzyme'] = testenzyme
-    temp_table['cumulative_totals'] = testtotal
 
     enzymelist = []
     totallist = []
     temp_table['next_enzyme'] = temp_table['enzyme'].shift(periods=-1)
-    for index, (a, b, c) in enumerate(zip(temp_table.enzyme, temp_table.next_enzyme, temp_table.cumulative_totals)):
+    for index, (a, b, c) in enumerate(zip(temp_table.enzyme, temp_table.next_enzyme, temp_table.total_peptides)):
         if a != b:
             enzymelist.append(a)
             totallist.append(c)
@@ -61,14 +45,14 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
             continue
 
     summary_table['enzyme'] = enzymelist
-    summary_table['total peptides'] = totallist
+    summary_table['total_peptides'] = totallist
 
     # MEDIAN PEPTIDE LENGTHS
     medians = []
     for enzyme in sorted(set(xlist)):
         median_length = statistics.median(all_lengths_dist.loc[(all_lengths_dist.enzyme == enzyme)].peptide_size)
         medians.append(median_length)
-    summary_table['median length'] = medians
+    summary_table['median_length'] = medians
 
     #  TOTAL FILTERED PEPTIDES GENERATED
     testname = []
@@ -90,31 +74,18 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     temp_table = pd.DataFrame()
     temp_table["input"] = testname
     temp_table['enzyme'] = testenzyme
-    temp_table['filtered peptides'] = testtotal
+    temp_table['filtered_peptides'] = testtotal
     # they need to be ordered by enzyme before the lists are compared
     temp_table = temp_table.sort_values(by=['enzyme'])
-    # back to lists, but ordered by enzyme
-    testenzyme = temp_table['enzyme'].tolist()
-    testtotal = temp_table['filtered peptides'].tolist()
-
-    for index, (a, c) in enumerate(zip(testenzyme, testtotal)):
-        if testenzyme[index] == testenzyme[index - 1]:
-            if testtotal[index] != testtotal[index - 1]:
-                testtotal[index] += testtotal[index - 1]
-        elif testenzyme[index] != testenzyme[index - 1]:
-            continue
-
-    temp_table['enzyme'] = testenzyme
-    temp_table['cumulative_totals'] = testtotal
 
     totallist = []
     temp_table['next_enzyme'] = temp_table['enzyme'].shift(periods=-1)
-    for index, (a, b, c) in enumerate(zip(temp_table.enzyme, temp_table.next_enzyme, temp_table.cumulative_totals)):
+    for index, (a, b, c) in enumerate(zip(temp_table.enzyme, temp_table.next_enzyme, temp_table.filtered_peptides)):
         if a != b:
             totallist.append(c)
         else:
             continue
-    summary_table['filtered peptides'] = totallist
+    summary_table['filtered_peptides'] = totallist
     ###
 
     # PROTEIN SEQUENCE COVERAGE
@@ -130,38 +101,53 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
         rpg_file = pd.read_csv(name)
         rpg_file = rpg_file.sort_values(['parent', 'enzyme', 'peptide_start'])
 
-        for protein in set(rpg_file.parent):
-            protein_df = rpg_file.loc[(rpg_file.parent == protein)]
-            protein_df = protein_df.rename(columns={'cleavage_position': 'end', 'peptide_start': 'start'})
+        if 'parallel' in name or 'mc' in name:
 
-            for enzyme in set(protein_df.enzyme):
-                enzyme_df = protein_df.loc[(protein_df.enzyme == enzyme)]
-                covered_regions_list = []
-                minval = -10000
-                maxval = -100000
-                enzyme_df['covered_regions'] = enzyme_df[['start', 'end']].values.tolist()
-                arraylist = enzyme_df['covered_regions'].tolist()
-                for i in range(len(arraylist)):
-                    a = arraylist[i]
-                    if a[0] > maxval:
-                        if i != 0:
-                            covered_regions_list.append([minval, maxval])
-                        maxval = a[1]
-                        minval = a[0]
-                    else:
-                        if a[1] >= maxval:
+            for protein in set(rpg_file.parent):
+                protein_df = rpg_file.loc[(rpg_file.parent == protein)]
+                protein_df = protein_df.rename(columns={'cleavage_position': 'end', 'peptide_start': 'start'})
+
+                for enzyme in set(protein_df.enzyme):
+                    enzyme_df = protein_df.loc[(protein_df.enzyme == enzyme)]
+                    covered_regions_list = []
+                    minval = -10000
+                    maxval = -100000
+                    enzyme_df['covered_regions'] = enzyme_df[['start', 'end']].values.tolist()
+                    arraylist = enzyme_df['covered_regions'].tolist()
+                    for i in range(len(arraylist)):
+                        a = arraylist[i]
+                        if a[0] > maxval:
+                            if i != 0:
+                                covered_regions_list.append([minval, maxval])
                             maxval = a[1]
-                if maxval != -100000 and [minval, maxval] not in covered_regions_list:
-                    covered_regions_list.append([minval, maxval])
-                temp_table = pd.DataFrame()
-                temp_table['covered_regions'] = covered_regions_list
-                temp_table['protein'] = protein
-                temp_table['enzyme'] = enzyme
-                temp_table['input_file'] = name
-                temp_table[['start', 'end']] = pd.DataFrame(temp_table.covered_regions.tolist(), index=temp_table.index)
-                temp_table['peptide_length'] = temp_table['end'] - temp_table['start'] + 1
-                temp_table = temp_table.drop(['start', 'end'], axis=1)
-                coverage_table = coverage_table.append(temp_table, sort=True)
+                            minval = a[0]
+                        else:
+                            if a[1] >= maxval:
+                                maxval = a[1]
+                    if maxval != -100000 and [minval, maxval] not in covered_regions_list:
+                        covered_regions_list.append([minval, maxval])
+                    temp_table = pd.DataFrame()
+                    temp_table['covered_regions'] = covered_regions_list
+                    temp_table['protein'] = protein
+                    temp_table['enzyme'] = enzyme
+                    temp_table['input_file'] = name
+                    temp_table[['start', 'end']] = pd.DataFrame(temp_table.covered_regions.tolist(), index=temp_table.index)
+                    temp_table['peptide_length'] = temp_table['end'] - temp_table['start'] + 1
+                    temp_table = temp_table.drop(['start', 'end'], axis=1)
+                    coverage_table = coverage_table.append(temp_table, sort=True)
+
+        else:
+            temp_table = pd.DataFrame(columns=['input_file', 'enzyme', 'peptide_length', 'protein_length'])
+            a = pd.DataFrame(rpg_file.groupby(['enzyme'], as_index=False)['peptide_size'].sum())
+            pep_len = a['peptide_size'].tolist()
+            enzymes = a['enzyme'].tolist()
+            temp_table['peptide_length'] = pep_len
+            temp_table['enzyme'] = enzymes
+            temp_table['protein_length'] = protein_len_sum
+            temp_table['input_file'] = name
+            coverage_table = coverage_table.append(temp_table, sort=True)
+        coverage_table['coverage'] = (coverage_table['peptide_length'] / coverage_table['protein_length']) * 100
+
     coverage_summary_table = pd.DataFrame(coverage_table.groupby(['enzyme'], as_index=False)['peptide_length'].sum())
     total_protein_length = protein_len_sum
     coverage_summary_table['protein_length'] = total_protein_length
@@ -179,12 +165,12 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 
     coverage_summary_table['combined_digests'] = digest_count
 
-    summary_table['mean length'] = (coverage_summary_table['protein_length'] * coverage_summary_table[
-        'combined_digests']) / summary_table['total peptides']
+    summary_table['mean_length'] = (coverage_summary_table['protein_length'] * coverage_summary_table[
+        'combined_digests']) / summary_table['total_peptides']
     # summary_table
-
+    #print(summary_table)
     # changing the column orders so that mean length is after total no. of unfiltered pepts
-    summary_table = summary_table[['enzyme', 'total peptides', 'mean length', 'median length', 'filtered peptides', 'coverage']]
+    summary_table = summary_table[['enzyme', 'total_peptides', 'mean_length', 'median_length', 'filtered_peptides', 'coverage']]
 
     summary_table.to_csv(output_name, index=False)
 
