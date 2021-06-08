@@ -18,5 +18,3 @@ def main():
         output_name_without_extension = args.output_name.replace('.csv', '')
         junction_peptides_main.junction_spanning(args.cds_files, args.rpg_file, args.output_name)
         print('output: {}_+_.csv, {}_-_.csv'.format(output_name_without_extension, output_name_without_extension))
-
-

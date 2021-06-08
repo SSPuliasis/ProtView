@@ -92,6 +92,9 @@ def calculate_gen_coords(peptides_file, cds_files):
 
         overall_df = overall_df.append(isoform_positions_df)
 
+    overall_df = overall_df.rename(columns={"pept_start_pos":"Protein start coordinate", "gen_start_pos":"Genomic start coordinate",
+                                                "pept_end_pos":"Protein end coordinate", "gen_end_pos": "Genomic end coordinate"})
+
     overall_df.to_csv(file_name+'_+_positions_df.csv', index=False)
 
     #############################
@@ -171,5 +174,8 @@ def calculate_gen_coords(peptides_file, cds_files):
         isoform_positions_df['enzyme'] = protease
 
         overall_df = overall_df.append(isoform_positions_df)
+
+    overall_df = overall_df.rename(columns={"pept_start_pos":"Protein start coordinate", "gen_start_pos":"Genomic start coordinate",
+                                                "pept_end_pos":"Protein end coordinate", "gen_end_pos": "Genomic end coordinate"})
 
     overall_df.to_csv(file_name+'_-_positions_df.csv', index=False)

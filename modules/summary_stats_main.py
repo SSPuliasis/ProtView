@@ -131,6 +131,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
                     temp_table['protein'] = protein
                     temp_table['enzyme'] = enzyme
                     temp_table['input_file'] = name
+                    temp_table['protein_length'] = protein_len_sum
                     temp_table[['start', 'end']] = pd.DataFrame(temp_table.covered_regions.tolist(), index=temp_table.index)
                     temp_table['peptide_length'] = temp_table['end'] - temp_table['start'] + 1
                     temp_table = temp_table.drop(['start', 'end'], axis=1)
