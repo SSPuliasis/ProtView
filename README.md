@@ -122,8 +122,7 @@ To filter the individual enzyme digests, it must be ran again without the parall
 
 **Note**:
 * When creating a parallel digest, the enzymes need to entered exactly as they are in the RPG output (e.g. 'Asp-N'
- and not 'aspn', asp-n', 'Asp-n' etc.). ProtView will not raise an error if an incorrect enzyme name is given, however 
- the output will be inaccurate and not represent the parallel digest.
+ and not 'aspn', asp-n', 'Asp-n' etc.)
 
 ## Coding Sequence Extraction
 Extracts coding sequence (CDS) information from gff3 files and prepares this information for the 
