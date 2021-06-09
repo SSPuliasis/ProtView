@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import shutil
+import sys
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
 # takes the raw rpg results as input, withoug '.fasta' extension in the name
@@ -113,11 +114,15 @@ def create_parallel_digest(input_file, output_file, enzymes):
     filein = pd.read_csv(input_file)
     parallel_df = pd.DataFrame()
     newname= ""
+    input_file_enzymes = set(filein.enzyme)
     for protease_name in enzymes:
         # print(protease_name, type(protease_name))
-        parallel_df = parallel_df.append(filein.loc[(filein.enzyme == protease_name)])
-        newname +=(':'+protease_name)
-        parallel_enzymes = newname[1:]
+        if protease_name in input_file_enzymes:
+            parallel_df = parallel_df.append(filein.loc[(filein.enzyme == protease_name)])
+            newname +=(':'+protease_name)
+            parallel_enzymes = newname[1:]
+        elif protease_name not in input_file_enzymes:
+            sys.exit('{} not found in input file, check case and spelling'.format(protease_name))
     parallel_df['enzyme'] = parallel_enzymes
     parallel_df = pd.DataFrame.drop_duplicates(parallel_df)
     parallel_df.to_csv(output_file, index=False)

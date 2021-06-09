@@ -107,6 +107,7 @@ Parameter suffixes:
 Output columns:
 * **FASTA_description**: Description of the 
 * **cleavage_position**: Protein end coordinate of the peptide
+* **peptide_size**: peptide length in amino acids
 * **mol_weight**: molecular weight
 * **isoelectric point**
 * **sequence**
