@@ -81,7 +81,7 @@ def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
         # Adding column for % of junctions covered, out of the available
         # junctions in the proteins
         output_df['total_junction_coverage'] = output_df['total_junctions_covered'] / (intron_no) * 100
-        output_df.to_csv(output_csv_name)
+        output_df.to_csv(output_csv_name, index=False)
 
 ## EXAMPLE
 # add all of the filtered junction csv files to this list

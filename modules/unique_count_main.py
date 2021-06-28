@@ -20,4 +20,4 @@ def add_unique_pept_column(table_name, rpg_files):
     unique_count_df = unique_count_df.sort_values('enzyme')
     summary_table = summary_table.sort_values('enzyme').reset_index(drop=True)
     summary_table['isoform unique peptides'] = unique_count_df['isoform_unique_peptides']
-    summary_table.to_csv(table_name)
+    summary_table.to_csv(table_name, index=False)
