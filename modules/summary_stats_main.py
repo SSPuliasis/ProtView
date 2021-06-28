@@ -161,7 +161,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
     # MEAN PEPTIDE LENGTHS
     digest_count = []
     for enzyme in coverage_summary_table['enzyme']:
-        digests_combined = enzyme.count(':') + 1
+        digests_combined = enzyme.count('/') + 1
         digest_count.append(digests_combined)
 
     coverage_summary_table['combined_digests'] = digest_count

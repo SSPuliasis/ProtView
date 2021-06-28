@@ -42,6 +42,7 @@ def process_rpg_output(input_name):
                "peptide_size", "mol_weight", "isoelectric_point", "sequence"]
     og_rpg = pd.read_csv(input_name + '_out.fasta', delimiter='_', header=None, names=headers, keep_default_na=False)
     og_rpg = og_rpg.drop('sequential_number', axis =1)
+    #og_rpg['enzyme'] = og_rpg['enzyme'].str.replace("-", "+")
     og_rpg['peptide_start'] = abs(og_rpg['cleavage_position'] - og_rpg['peptide_size'])
     og_rpg['peptide_start'] = og_rpg['peptide_start'] + 1
     parent_isoform = []
@@ -119,9 +120,10 @@ def create_parallel_digest(input_file, output_file, enzymes):
         # print(protease_name, type(protease_name))
         if protease_name in input_file_enzymes:
             parallel_df = parallel_df.append(filein.loc[(filein.enzyme == protease_name)])
-            newname +=(':'+protease_name)
+            newname +=('/'+protease_name)
             parallel_enzymes = newname[1:]
         elif protease_name not in input_file_enzymes:
+            print(set(input_file_enzymes))
             sys.exit('{} not found in input file, check case and spelling'.format(protease_name))
     parallel_df['enzyme'] = parallel_enzymes
     parallel_df = pd.DataFrame.drop_duplicates(parallel_df)
