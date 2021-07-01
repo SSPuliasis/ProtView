@@ -55,6 +55,9 @@ def process_rpg_output(input_name):
     og_rpg = og_rpg.dropna()
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('X')]
     og_rpg = og_rpg[~og_rpg.sequence.str.contains('\*')]
+    og_rpg = og_rpg.reindex(columns=['FASTA_description', 'enzyme', 'peptide_start', 'cleavage_position',
+                                     'peptide_size', 'mol_weight', 'isoelectric_point', 'sequence', 'parent']
+)
     # save new table
     og_rpg.to_csv(input_name + '.csv', index=False)
     os.remove(input_name+'_out.fasta')
