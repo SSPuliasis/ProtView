@@ -84,6 +84,13 @@ Processes RPG-generated peptides in fasta format, allowing the user to specify t
 allowed per peptide, create parallel enzyme digests, and filter for peptides containing a specific residue
 or of a certain amino acid length.
 
+RPG treats mis-cleavage as a percentage of how frequently cleavage is missed at each theoretical cleavage site. The 
+aim of ProtView is to give the theoretical upper limit of peptides that could be identified in an experiment and allow 
+for in silico results to be compared to experimental data from software algorithms that treat mis-cleavage as the number 
+of missed cleavages allowed per peptide . A function for generating mis-cleaved peptides is therefore included in 
+ProtView, which allows the generation of mis-cleaved peptides by concatenating adjacent peptide sequences from the RPG 
+digest up to n times, where n is the mis-cleavage number specified by the user.
+
 Required Arguments:
 * **input_file**: name of the RPG peptides file
 
