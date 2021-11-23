@@ -9,7 +9,7 @@ long_description='README and instructions can be found on the [ProtView github p
 setup(
     name='protview',
     version='0.0.6',
-    packages=['modules'],
+    packages=['protview'],
     url='https://github.com/SSPuliasis/ProtView',
     license='GPL v3',
     author='Sophia Puliasis',
