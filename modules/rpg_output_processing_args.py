@@ -32,8 +32,7 @@ def main():
     print("processing peptides")
     #process_rpg_output
     input_name = args.input_file.replace('.fasta', '')
-
-    output_file_name_csv = str("{}.csv".format(args.input_name))
+    output_file_name_csv = str("{}.csv".format(input_name))
     print("process_rpg_output - input:{}, output:{}".format(args.input_file,
           output_file_name_csv))
     recent_file_name = str(input_name)

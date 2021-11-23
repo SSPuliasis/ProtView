@@ -26,7 +26,7 @@ the in-silico digestion. It then maps the digested proteins back to transcripts/
 which allows the comparisons of the transcript/ gene sequences visible to proteomics experiments 
 between different digestions.
 
-![alt text](./README_images/protview_context.png)
+![diagram of workflow in proteomic and proteogenomic context](https://github.com/SSPuliasis/ProtView/blob/master/README_images/protview_context.png)
 
 **Figure 1:** outline of the ProtView workflow
 
@@ -62,7 +62,7 @@ walk through how ProtView works. Araport11 protein sequences were retrieved from
 in fasta format and the Araport11 GFF3 files were downloaded via [jbrowse](https://www.araport.org/data/araport11).
 These files can be found in the example_data folder.
 
-![alt text](./README_images/jbrowse_at1g66600_at1g66610.PNG)
+![Jbrowse depiction of the example](https://github.com/SSPuliasis/ProtView/blob/master/README_images/jbrowse_at1g66600_at1g66610.PNG)
 
 **Figure 2:** Jbrowse depiction of the example
 
