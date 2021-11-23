@@ -4,9 +4,11 @@ from distutils.core import setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+long_description='README and instructions can be found on the [ProtView github page](https://github.com/SSPuliasis/ProtView)'
+
 setup(
     name='ProtView',
-    version='0.0.1',
+    version='0.0.5',
     packages=['modules'],
     url='https://github.com/SSPuliasis/ProtView',
     license='GPL v3',
@@ -22,6 +24,6 @@ setup(
         'BioPython==1.76',
         'rpg==1.1.0'
     ],
-    python_requires='==3.7',
+    python_requires='>3.7',
     setup_requires=['wheel']
 )
