@@ -1,5 +1,5 @@
 import argparse
-import modules.summary_stats_main as summary_stats_main
+import protview.summary_stats_main as summary_stats_main
 
 parser = argparse.ArgumentParser(
     description="generates a table of summary statistics", add_help=False)

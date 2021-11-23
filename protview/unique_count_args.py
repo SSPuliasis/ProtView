@@ -1,5 +1,5 @@
 import argparse
-import modules.unique_count_main as unique_count_main
+import protview.unique_count_main as unique_count_main
 
 parser = argparse.ArgumentParser(
     description='counts the number of peptides per enzyme that are only generated for one isoform per digest and '

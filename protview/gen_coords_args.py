@@ -1,5 +1,5 @@
 import argparse
-import modules.gen_coords_main as gen_coords_main
+import protview.gen_coords_main as gen_coords_main
 
 parser = argparse.ArgumentParser(
     description="filter for peptides that cover exon-exon junctions", add_help=False)
