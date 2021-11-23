@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 long_description='README and instructions can be found on the [ProtView github page](https://github.com/SSPuliasis/ProtView)'
 
 setup(
-    name='ProtView',
+    name='protview',
     version='0.0.5',
     packages=['modules'],
     url='https://github.com/SSPuliasis/ProtView',
