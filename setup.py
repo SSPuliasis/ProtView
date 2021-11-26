@@ -8,7 +8,7 @@ long_description='README and instructions can be found on the [ProtView github p
 
 setup(
     name='protview',
-    version='0.0.6',
+    version='1.0.0',
     packages=['protview'],
     url='https://github.com/SSPuliasis/ProtView',
     license='GPL v3',
@@ -25,5 +25,10 @@ setup(
         'rpg==1.1.0'
     ],
     python_requires='>3.7',
-    setup_requires=['wheel']
+    setup_requires=['wheel'],
+    entry_points={
+        'console_scripts':[
+            'protview=protview.ProtView:main'
+        ]
+    }
 )
