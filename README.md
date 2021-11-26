@@ -30,7 +30,7 @@ between different digestions.
 
 **Figure 1:** outline of the ProtView workflow
 
-# Installation - CHANGE INSTRUCTIONS HERE
+# Installation
 Supported Python version: 3.7.4
 
 ProtView requires the following packages:
