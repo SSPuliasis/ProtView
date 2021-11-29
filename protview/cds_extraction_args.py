@@ -1,5 +1,5 @@
 import argparse
-import protview.cds_extraction_main as cds_extraction_main
+import cds_extraction_main as cds_extraction_main
 
 parser = argparse.ArgumentParser(
     description="extract CDS information from a gff3 file", add_help=False)

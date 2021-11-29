@@ -1,5 +1,5 @@
 import argparse
-import protview.junction_summary_main as junction_summary_main
+import junction_summary_main as junction_summary_main
 
 parser = argparse.ArgumentParser(
     description="summary statistics for peptides covering exon-exon junctions", add_help=False)
