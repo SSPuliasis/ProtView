@@ -170,7 +170,7 @@ Information is retained from the original gff3 files under the same columns name
 contains protein(s) on one of the strands. It is important to keep empty CDS information files generated, as they 
 are required as input for steps in the downstream analysis.
 
-## General Summary Statistics - PARALLEL AND MC NEED TO BE IN FILE NAME BECAUSE THEY'RE CALCULATED SLIGHTLY DIFFERENTLY
+## General Summary Statistics
 This gives a table with columns for the total number of peptides generated, both before and after 
 filtering criteria were applied, peptide length distributions, and protein sequence coverage. The 
 calculation of residue coverage is optional and carried out if residues are provided by the user.

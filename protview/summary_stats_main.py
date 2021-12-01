@@ -177,11 +177,6 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
 
 #create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 'method_summary.csv')
 
-
-##### WITH RESIDUE FILTERING - doesn't work yet for parallel combinations
-# FILTERED RPG FILES ABOVE NEED TO HAVE BEEN FILTERED FOR RESIDUE FOR THIS TO WORK
-# COUNTING FREQ OF RESIDUES IN THE SEQUENCES
-
 def add_residue_coverage_column(residue, fasta_files, summary_table, output_table_name, filtered_rpg_files):
     summary_table = pd.read_csv(summary_table)
     summary_table = summary_table.sort_values('enzyme')

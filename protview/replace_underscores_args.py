@@ -1,5 +1,5 @@
 import argparse
-import replace_underscores_main as replace_underscores_main
+import protview.replace_underscores_main as replace_underscores_main
 
 parser = argparse.ArgumentParser(
     description="replaces '_' with '-' before carrying out a digest", add_help=False)

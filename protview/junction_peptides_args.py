@@ -1,5 +1,5 @@
 import argparse
-import junction_peptides_main as junction_peptides_main
+import protview.junction_peptides_main as junction_peptides_main
 
 parser = argparse.ArgumentParser(
     description="filter for peptides that cover exon-exon junctions", add_help=False)

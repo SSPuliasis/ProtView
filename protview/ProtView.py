@@ -1,14 +1,14 @@
 import argparse
 import sys
 
-import cds_extraction_args as cds_extraction
-import gen_coords_args as gen_coords
-import junction_peptides_args as junction_peptides
-import junction_summary_args as junction_summary
-import rpg_output_processing_args as rpg_output_processing
-import summary_stats_args as summary_stats
-import unique_count_args as unique_count
-import replace_underscores_args as replace_underscores
+import protview.cds_extraction_args as cds_extraction
+import protview.gen_coords_args as gen_coords
+import protview.junction_peptides_args as junction_peptides
+import protview.junction_summary_args as junction_summary
+import protview.rpg_output_processing_args as rpg_output_processing
+import protview.summary_stats_args as summary_stats
+import protview.unique_count_args as unique_count
+import protview.replace_underscores_args as replace_underscores
 
 # make a parser in this with help options etc
 parser = argparse.ArgumentParser(prog='ProtView',

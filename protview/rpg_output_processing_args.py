@@ -5,7 +5,7 @@ Created on Wed Mar 31 12:53:02 2021
 @author: SSPuliasis
 """
 import argparse
-import rpg_output_processing_main as rpg_output_processing_main
+import protview.rpg_output_processing_main as rpg_output_processing_main
 
 parser = argparse.ArgumentParser(
         description="process peptides generated in silico by RPG", add_help =False)
