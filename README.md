@@ -5,6 +5,7 @@
 * [Installation](#installation)
 * [Input files](#input-files)
 * [Walk-through](#walk-through)
+    * [Input Sanitation](#input-sanitation)
     * [RPG digest](#rpg-digest)
     * [Peptide Processing](#peptide-processing)
     * [Coding Sequence Extraction](#coding-sequence-extraction)
@@ -70,6 +71,11 @@ been set to the directory containing the intended input files, example data or o
 ![Jbrowse depiction of the example](https://github.com/SSPuliasis/ProtView/blob/master/README_images/jbrowse_at1g66600_at1g66610.PNG)
 
 **Figure 2:** Jbrowse depiction of the example
+
+## Input Sanitation
+This step replaces underscores and '>' characters in the fasta protein descriptions to avoid downstream errors in the 
+analysis
+`protview fasta_input_sanitation at1g66600_at1g66610.fasta`
 
 ## RPG digest
 ProtView incorporates Rapid Peptides Generator (RPG) ([Maillet, 2019](https://academic.oup.com/nargab/article/2/1/lqz004/5581718))

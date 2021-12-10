@@ -8,7 +8,7 @@ import protview.junction_summary_args as junction_summary
 import protview.rpg_output_processing_args as rpg_output_processing
 import protview.summary_stats_args as summary_stats
 import protview.unique_count_args as unique_count
-import protview.replace_underscores_args as replace_underscores
+import protview.fasta_input_sanitation_args as fasta_input_sanitation
 
 # make a parser in this with help options etc
 parser = argparse.ArgumentParser(prog='ProtView',
@@ -52,10 +52,10 @@ unique_count_subparser = subparsers.add_parser("unique_count",
                                                parents=[unique_count.parser])
 unique_count_subparser.set_defaults(func="unique_count")
 
-#replace underscores parser
-replace_underscores_subparser = subparsers.add_parser("replace_underscores",
-                                               parents = [replace_underscores.parser])
-replace_underscores_subparser.set_defaults(func="replace_underscores")
+#fasta input sanitation parser
+fasta_input_sanitation_subparser = subparsers.add_parser("fasta_input_sanitation",
+                                               parents = [fasta_input_sanitation.parser])
+fasta_input_sanitation_subparser.set_defaults(func="fasta_input_sanitation")
 
 
 def main():
@@ -86,9 +86,9 @@ def main():
     elif args.func == "unique_count":
         unique_count.parser = parser
         unique_count.main()
-    elif args.func == "replace_underscores":
-        replace_underscores.parser = parser
-        replace_underscores.main()
+    elif args.func == "fasta_input_sanitation":
+        fasta_input_sanitation.parser = parser
+        fasta_input_sanitation.main()
 
 
 if __name__ == '__main__':

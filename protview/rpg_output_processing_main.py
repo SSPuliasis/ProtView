@@ -4,7 +4,7 @@ import shutil
 import sys
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
-# takes the raw rpg results as input, withoug '.fasta' extension in the name
+# takes the raw rpg results as input, without '.fasta' extension in the name
 # and replace isoelectric point by rpg with the biopython iso point
 # remove '>' from start of parent and correct in all subsequent scripts
 def process_rpg_output(input_name):
