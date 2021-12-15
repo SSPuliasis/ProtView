@@ -8,7 +8,7 @@ long_description='README and instructions can be found on the [ProtView github p
 
 setup(
     name='protview',
-    version='1.0.3',
+    version='1.0.4',
     packages=['protview'],
     url='https://github.com/SSPuliasis/ProtView',
     license='GPL v3',
