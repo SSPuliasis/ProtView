@@ -65,7 +65,7 @@ The *Arabidopsis thaliana* genes AT1G666600 and AT1G66610 (Figure 2) are include
 walk through how ProtView works. Araport11 protein sequences were retrieved from the 
 [tair database](https://www.arabidopsis.org/download/index-auto.jsp?dir=%2Fdownload_files%2FSequences%2FAraport11_blastsets) 
 in fasta format and the Araport11 GFF3 files were downloaded via [jbrowse](https://www.araport.org/data/araport11).
-These files can be found and downloaded from the example_data folder on the github page. Once the working directory has 
+These files can be found and downloaded from the protview_example_data folder on the github page. Once the working directory has 
 been set to the directory containing the intended input files, example data or otherwise, the analysis can begin.
 
 ![Jbrowse depiction of the example](https://github.com/SSPuliasis/ProtView/blob/master/README_images/jbrowse_at1g66600_at1g66610.PNG)
@@ -74,7 +74,8 @@ been set to the directory containing the intended input files, example data or o
 
 ## Input Sanitation
 This step replaces underscores and '>' characters in the fasta protein descriptions to avoid downstream errors in the 
-analysis
+analysis. To run the fasta input sanitation function of the fasta file in the example data:
+
 `protview fasta_input_sanitation at1g66600_at1g66610.fasta`
 
 ## RPG digest
