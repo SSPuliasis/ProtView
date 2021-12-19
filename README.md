@@ -92,9 +92,9 @@ To digest the example proteins with Trypsin, Asp-N, and Glu-C and save the outpu
 digests are then treated the same as single enzyme digests throughout the workflow.
 
 ## Peptide Processing
-Processes RPG-generated peptides in fasta format, allowing the user to specify the number of missed cleavages 
-allowed per peptide, create parallel enzyme digests, and filter for peptides containing a specific residue
-or of a certain amino acid length.
+This module processes RPG-generated peptides in fasta format, allowing the user to 1) specify the number of missed cleavages 
+allowed per peptide, 2) create parallel enzyme digests, 3)filter for peptides containing a specific residue,
+4) filter by a certain amino acid length.
 
 RPG treats mis-cleavage as a percentage of how frequently cleavage is missed at each theoretical cleavage site. The 
 aim of ProtView is to give the theoretical upper limit of peptides that could be identified in an experiment and allow 
@@ -113,9 +113,9 @@ Options:
 * **-min, --min_len**: Minimum peptide length to filter for, default = 7
 * **-max, --max_len**: Maximum peptide length to filter for, default = 35
 
-The options are carried out in the order in which they are given here and the output is saved after each step.
+The output is saved after each of the above steps.
 
-Output files are named \<input_file>_\<parameter_suffixes>.csv
+Output files are named \<input_file>_\<parameter_suffixes>.csv (e.g. at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel_len_7_35.csv)
 Parameter suffixes:
 * mc\<x>, where x = the number of missed cleavages, if mis-cleavage is used
 * \<enzymes>_parallel, if a parallel digest is created
@@ -131,18 +131,17 @@ Output columns:
 * **sequence**
 * **peptide_start**: Protein start coordinate of the peptide
 
-To process the RPG peptides generated above, allowing for no missed cleavages, creating a parallel digest
-of Trypsin and Asp-N, and then filter for the default 7-35 amino acid length range:
-`protview rpg_output_processing at1g66600_at1g66610_rpg.fasta -e Trypsin Asp-N`
-
-To filter the individual enzyme digests, it must be ran again without the parallel digest option.
+To filter the individual enzyme digests, with default parameters.
 `protview rpg_output_processing at1g66600_at1g66610_rpg.fasta`
+
+To create a parallel digest of Trypsin and Asp-N using default parameters:
+`protview rpg_output_processing at1g66600_at1g66610_rpg.fasta -e Trypsin Asp-N`
 
 **Notes**:
 * When creating a parallel digest, the enzymes need to entered exactly as they are in the RPG output (e.g. 'Asp-N'
  and not 'aspn', asp-n', 'Asp-n' etc.)
 * Any files containing peptides from parallel digests or containing missed cleavages will have 'parallel' or 'mc' in 
-their file names. It is important not to rename these files, as some of the statistics are calculated differently for 
+their file names. It is important not to rename these files, as the statistics are calculated differently for 
 mis-cleaved peptides and combined digests.
 
 ## Coding Sequence Extraction
@@ -179,13 +178,13 @@ are required as input for steps in the downstream analysis.
 
 ## General Summary Statistics
 This gives a table with columns for the total number of peptides generated, both before and after 
-filtering criteria were applied, peptide length distributions, and protein sequence coverage. The 
-calculation of residue coverage is optional and carried out if residues are provided by the user.
+filtering, peptide length distributions, and protein sequence coverage. The calculation of residue coverage is 
+optional and carried out if residues are provided by the user.
 
 Required Arguments:
 * **-fasta, --fasta_files**: original fasta sequence files used in the digests
-* **-u, --unfiltered_rpg_files**: unfiltered rpg peptides in csv format
-* **-f, --filtered_rpg_files**: filtered rpg peptides in csv format
+* **-u, --unfiltered_rpg_files**: unfiltered rpg peptides in csv format (output from rpg_output_processing module)
+* **-f, --filtered_rpg_files**: filtered rpg peptides in csv format (output from rpg_output_processing module)
 
 Optional Arguments:
 * **-o, --output_name**: name of the output file, ending in .csv. Default = summary_table.csv
@@ -209,20 +208,20 @@ at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel_len_7_35.csv -r C S T
 
 **Note:**
 - Please ensure that any files containing peptides with missed cleavages or parallel digests have 'mc' or 'parallel'
-in their file names (standard ProtView output unless the names have been manually changed) before carrying out this step
+in their file names (standard ProtView output unless they have been manually changed by the user) before carrying out this step
 
 ## Genomic co-ordinate conversion
-Relative peptide coordinates from the digest output can converted to the outer bounds of their 
-corresponding coordinates on the genome. The resulting table contains the isoform, both genomic and 
-relative protein start and end positions for each peptide, and the enzymes used to generate the peptide. 
+To map peptides onto the genome, relative peptide coordinates from the digest output are converted to the 
+outer bounds of their corresponding coordinates on the genome. The resulting table contains the isoform, both 
+genomic and relative protein start and end positions for each peptide, and the enzymes used to generate the peptide. 
 
-This function works best on one protein at a time and the output allows for genomic coverage visualization using
-tools such as [Gviz](https://link.springer.com/protocol/10.1007%2F978-1-4939-3578-9_16).
+This function works best on one protein at a time and the output can be visualized on the genome using tools such 
+as [Gviz](https://link.springer.com/protocol/10.1007%2F978-1-4939-3578-9_16).
 
 Required Arguments:
-* **rpg_file**: csv file containing the peptides and their proteomic co-orindates
+* **rpg_file**: csv file containing the peptides and their proteomic co-orindates (output from rpg_output_processing module)
 * **cds_files**: both csv files containing extracted coding sequences for each DNA strand, ending in 
-+/-_cdsdf.csv
++/-_cdsdf.csv (output from cds_extraction module)
 
 To calculate, the genomic coordinates of the filtered parallel Trypsin:Asp-N digest in our example:
 ```
@@ -248,9 +247,9 @@ junction-covering peptides is the filtered digest results. Positive outcomes are
 format as the digest results, with an additional column for junction location.
 
 Required Arguments:
-* **rpg_file**: csv file containing the peptides to be filtered
+* **rpg_file**: csv file containing the peptides to be filtered (output from rg_output_processing module)
 * **cds_files**: both csv files containing extracted coding sequences for each DNA strand, ending in 
-+/-_cdsdf.csv
++/-_cdsdf.csv (output from cds_extraction module)
 * **output_name**: desired name of output csv file, ProtView will automatically differentiate between 
 DNA strands
 
@@ -259,8 +258,7 @@ To filter the individual digests from the example
 protview junction_peptides at1g66600_at1g66610_rpg_len_7_35.csv at1g66600_at1g66610_+_cdsdf.csv 
 at1g66600_at1g66610_-_cdsdf.csv single_digest_junction_peptides.csv
 ```
-To filter the parallel digest, first argument changes to the csv containing peptides from this digest and another 
-output name is provided
+To identify splice junction covering peptides from the parallel digest
 ```
 protview junction_peptides at1g66600_at1g66610_rpg_Trypsin_Asp-N_parallel_len_7_35.csv 
 at1g66600_at1g66610_+_cdsdf.csv at1g66600_at1g66610_-_cdsdf.csv parallel_digest_junction_peptides.csv
@@ -305,7 +303,7 @@ with sequences that can only be found in one isoform in a digest.
 
 Required Arguments:
 * **table_name**: the proteomic or junction summary statistics table for the column to be appended to
-* **rpg_files**: the filtered digest results in csv format
+* **rpg_files**: the filtered digest results in csv format (output from rpg_output_processing module)
 
 To calculate the  number of unique peptides in the example digest and append it to the proteomic summary table:
 ```
