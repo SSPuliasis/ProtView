@@ -32,14 +32,14 @@ between different digestions.
 **Figure 1:** outline of the ProtView workflow
 
 # Installation
-Supported Python version: 3.7.4
+Supported Python version: >= 3.8
 
 ProtView requires the following packages:
 * [rpg](https://rapid-peptide-generator.readthedocs.io/en/latest/userguide.html#installation) version 1.1.0
-* [pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html?highlight=install) version 0.25.1
+* [pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html?highlight=install)
 * [gffpandas](https://gffpandas.readthedocs.io/en/latest/installation.html) version 1.2.0
-* [numpy](https://numpy.org/install/) version 1.16.5
-* [BioPython](https://biopython.org/wiki/Download) version 1.76
+* [numpy](https://numpy.org/install/)
+* [BioPython](https://biopython.org/wiki/Download)
 
 We recommend creating a separate environment to run ProtView in the command line, to avoid clashes between package versions in the main
 environment. To create and activate a separate environment named 'protview_environment', and install ProtView and 
