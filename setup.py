@@ -4,7 +4,10 @@ from distutils.core import setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-long_description='README and instructions can be found on the [ProtView github page](https://github.com/SSPuliasis/ProtView)'
+long_description='ProtView is designed to present statistics of in silico digestions and provide useful information, ' \
+                 'such as the protein sequence coverage, peptides covering exon-exon junctions, and the percentage of ' \
+                 'junctions or residues in the data that are covered by peptides of a digest. README and instructions ' \
+                 'can be found on the [ProtView github page](https://github.com/SSPuliasis/ProtView)'
 
 setup(
     name='protview',
@@ -18,13 +21,13 @@ setup(
     long_description = long_description,
     long_description_content_type="text/markdown",
     install_requires=[
-        'numpy==1.16.5',
-        'pandas==0.25.1',
+        'numpy',
+        'pandas',
         'gffpandas==1.2.0',
-        'BioPython==1.76',
+        'BioPython',
         'rpg==1.1.0'
     ],
-    python_requires='>3.7',
+    python_requires='>=3.8',
     setup_requires=['wheel'],
     entry_points={
         'console_scripts':[
