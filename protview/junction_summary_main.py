@@ -82,18 +82,3 @@ def junction_summary_stats(junction_spanning_files, cds_files, output_csv_name):
         # junctions in the proteins
         output_df['total_junction_coverage'] = output_df['total_junctions_covered'] / (intron_no) * 100
         output_df.to_csv(output_csv_name, index=False)
-
-## EXAMPLE
-# add all of the filtered junction csv files to this list
-junction_spanning_files = ['chr1_+_junction_spanning.csv', 'chr1_-_junction_spanning.csv',
-                           'chr2_+_junction_spanning.csv', 'chr2_-_junction_spanning.csv',
-                           'chr3_+_junction_spanning.csv', 'chr3_-_junction_spanning.csv',
-                           'chr4_+_junction_spanning.csv', 'chr4_-_junction_spanning.csv',
-                           'chr5_+_junction_spanning.csv', 'chr5_-_junction_spanning.csv']
-cds_files = ['chr1_+_cdsdf.csv', 'chr1_-_cdsdf.csv',
-             'chr2_+_cdsdf.csv', 'chr2_-_cdsdf.csv',
-             'chr3_+_cdsdf.csv', 'chr3_-_cdsdf.csv',
-             'chr4_+_cdsdf.csv', 'chr4_-_cdsdf.csv',
-             'chr5_+_cdsdf.csv', 'chr5_-_cdsdf.csv']
-
-#junction_summary_stats(junction_spanning_files, cds_files, 'junction_statistics.csv')
