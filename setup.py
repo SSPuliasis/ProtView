@@ -1,4 +1,5 @@
 import setuptools
+
 from distutils.core import setup
 
 with open("README.md", "r") as fh:
@@ -11,7 +12,7 @@ long_description='ProtView is designed to present statistics of in silico digest
 
 setup(
     name='protview',
-    version='1.0.4',
+    version='0.0.16',
     packages=['protview'],
     url='https://github.com/SSPuliasis/ProtView',
     license='GPL v3',
@@ -23,9 +24,10 @@ setup(
     install_requires=[
         'numpy',
         'pandas',
-        'gffpandas==1.2.0',
+        'gffpandas',
         'BioPython',
-        'rpg==1.1.0'
+        'rpg',
+        'pexpect'
     ],
     python_requires='>=3.8',
     setup_requires=['wheel'],

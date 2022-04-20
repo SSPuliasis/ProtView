@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+import protview.setup_commands_args as setup_commands
 import protview.cds_extraction_args as cds_extraction
 import protview.gen_coords_args as gen_coords
 import protview.junction_peptides_args as junction_peptides
@@ -16,6 +17,11 @@ parser = argparse.ArgumentParser(prog='ProtView',
                                              "in silico, in a proteomic and transcriptomic context")
 
 subparsers = parser.add_subparsers()
+
+# protview_setup_commands parser
+setup_commands_subparser = subparsers.add_parser("setup_commands",
+                                                          parents=[setup_commands.parser])
+setup_commands_subparser.set_defaults(func="setup_commands")
 
 # cds_extraction parser
 cds_extraction_subparser = subparsers.add_parser("cds_extraction",
@@ -65,7 +71,10 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if args.func == "cds_extraction":
+    if args.func == "setup_commands":
+        setup_commands.parser = parser
+        setup_commands.main()
+    elif args.func == "cds_extraction":
         cds_extraction.parser = parser
         cds_extraction.main()
     elif args.func == "gen_coords":

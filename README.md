@@ -42,12 +42,13 @@ ProtView requires the following packages:
 * [BioPython](https://biopython.org/wiki/Download)
 
 We recommend creating a separate environment to run ProtView in the command line, to avoid clashes between package versions in the main
-environment. To create and activate a separate environment named 'protview_environment', and install ProtView and 
-dependencies:
+environment. To create and activate a separate environment named 'protview_environment', install ProtView and 
+dependencies, and run setup commands:
 ```
 conda create -n protview_environment
 conda activate protview_environment
 pip install protview
+protview setup_commands
 ```
 
 # Input Files

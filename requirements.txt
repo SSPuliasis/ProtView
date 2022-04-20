@@ -1,5 +1,6 @@
-numpy
-pandas
+numpy==1.22.3
+pandas==1.4.2
 gffpandas==1.2.0
-BioPython
-rpg==1.1.0
+BioPython==1.79
+rpg==1.2.4
+pexpect==4.8.0
