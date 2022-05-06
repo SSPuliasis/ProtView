@@ -21,7 +21,7 @@ such as the protein sequence coverage, peptides covering exon-exon junctions, an
 of junctions or residues in the data that are covered by peptides of a digest (Figure 1). It allows 
 the users to see the portions of the gene/transcript on the genome that are covered by proteomic 
 data. It takes the protein sequence (fasta) and the coding sequence annotations (gff3 format) on 
-the genome as inputs. It incorporates Rapid Peptides Generator (RPG) 
+the genome as inputs. It utilises Rapid Peptides Generator (RPG) 
 ([Maillet, 2019](https://academic.oup.com/nargab/article/2/1/lqz004/5581718)), which carries out 
 the in-silico digestion. It then maps the digested proteins back to transcripts/genes on the genome, 
 which allows the comparisons of the transcript/ gene sequences visible to proteomics experiments 
@@ -35,9 +35,9 @@ between different digestions.
 Supported Python version: >= 3.8
 
 ProtView requires the following packages:
-* [rpg](https://rapid-peptide-generator.readthedocs.io/en/latest/userguide.html#installation) version 1.1.0
+* [rpg](https://rapid-peptide-generator.readthedocs.io/en/latest/userguide.html#installation) 
 * [pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html?highlight=install)
-* [gffpandas](https://gffpandas.readthedocs.io/en/latest/installation.html) version 1.2.0
+* [gffpandas](https://gffpandas.readthedocs.io/en/latest/installation.html) 
 * [numpy](https://numpy.org/install/)
 * [BioPython](https://biopython.org/wiki/Download)
 
@@ -50,6 +50,9 @@ conda activate protview_environment
 pip install protview
 protview setup_commands
 ```
+Setup commands include the creation of two user-defined proteases in RPG, 'Asp-N-UD' (cleaves N-terminal to 
+D), and 'Glu-C-UD' (cleaves C-terminal to E). It was found in ProtView benchmarking analyses and comparisons to public 
+data that these cleavage rules better represent the behaviour of these proteases.
 
 # Input Files
 Required input for an analysis with ProtView:
@@ -80,7 +83,7 @@ analysis. To run the fasta input sanitation function of the fasta file in the ex
 `protview fasta_input_sanitation at1g66600_at1g66610.fasta`
 
 ## RPG digest
-ProtView incorporates Rapid Peptides Generator (RPG) ([Maillet, 2019](https://academic.oup.com/nargab/article/2/1/lqz004/5581718))
+ProtView utilises Rapid Peptides Generator (RPG) ([Maillet, 2019](https://academic.oup.com/nargab/article/2/1/lqz004/5581718))
 to carry out *in-silico* digests. RPG takes a fasta protein sequence as input, more instructions for 
 running RPG can be found [here](https://rapid-peptide-generator.readthedocs.io/en/latest/).
 
