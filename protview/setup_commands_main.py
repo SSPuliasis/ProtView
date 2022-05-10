@@ -12,7 +12,7 @@ def add_ud_proteases():
     #add_enzyme.expect('Add another enzyme')
     add_enzyme.sendline('y')
     #add_enzyme.expect('Name of the new enzyme')
-    add_enzyme.sendline('Glu-C-UD-UD')
+    add_enzyme.sendline('Glu-C-UD')
     #add_enzyme.expect('Create a cleaving rule')
     add_enzyme.sendline('c')
     #add_enzyme.expect('Write your cleaving rule')
