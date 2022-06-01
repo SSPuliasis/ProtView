@@ -10,7 +10,7 @@ def add_unique_pept_column(table_name, rpg_files):
         for name in rpg_files:
             seqs_to_check = pd.read_csv(name)
             by_enzyme = seqs_to_check.loc[seqs_to_check['enzyme'] == enzyme]
-            merged_by_enzyme = merged_by_enzyme.append(by_enzyme)
+            merged_by_enzyme = pd.concat([merged_by_enzyme,by_enzyme])
 
         seq_iso_dict = merged_by_enzyme.groupby(['sequence'])['parent'].apply(list).to_dict()
         count = sum(len(v) == 1 for v in seq_iso_dict.values())

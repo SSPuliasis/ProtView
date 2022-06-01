@@ -28,7 +28,8 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
                         if row['peptide_start'] < junction:
                             row['junction'] = junction
                             row['intron_id'] = junctions_dict[isoform, junction]['intron_id']
-                            junction_spanning = junction_spanning.append(row)
+                            row = row.to_frame().transpose()
+                            junction_spanning= pd.concat([junction_spanning, row])
 
 
             junction_spanning.to_csv(output_name_without_extension+'_+_.csv', index=False)
@@ -58,6 +59,7 @@ def junction_spanning(cds_files, rpg_file, output_file_name):
                         if row['peptide_start'] < junction:
                             row['junction'] = junction
                             row['intron_id'] = junctions_dict[isoform, junction]['intron_id']
-                            junction_spanning = junction_spanning.append(row)
+                            row = row.to_frame().transpose()
+                            junction_spanning = pd.concat([junction_spanning, row])
 
             junction_spanning.to_csv(output_name_without_extension+'_-_.csv', index=False)

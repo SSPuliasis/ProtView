@@ -53,7 +53,8 @@ def calculate_gen_coords(peptides_file, cds_files):
             if protkeys[0][0] == genkeys[0][0]:  # isoform
                 row_dict = {'isoform': protkeys[0][0], 'cds_id': protkeys[1],
                             'pept_start_pos': protkeys[0][1], 'gen_start_pos': int(genkeys[0][1])}
-                isoform_start_positions_df = isoform_start_positions_df.append(row_dict, ignore_index=True)
+                row_dict = pd.DataFrame([row_dict])
+                isoform_start_positions_df = pd.concat([isoform_start_positions_df, row_dict], ignore_index=True)
 
         ###################################
 
@@ -79,7 +80,8 @@ def calculate_gen_coords(peptides_file, cds_files):
             if protkeys[0][0] == genkeys[0][0]:  # isoform
                 row_dict = {'isoform': protkeys[0][0], 'cds_id': protkeys[1],
                             'pept_end_pos': protkeys[0][1], 'gen_end_pos': int(genkeys[0][1])}
-                isoform_end_positions_df = isoform_end_positions_df.append(row_dict, ignore_index=True)
+                row_dict = pd.DataFrame([row_dict])
+                isoform_end_positions_df = pd.concat([isoform_end_positions_df, row_dict], ignore_index=True)
 
         # creating a new dataframe that combines the two
         isoform_positions_df = pd.DataFrame()
@@ -90,7 +92,7 @@ def calculate_gen_coords(peptides_file, cds_files):
         isoform_positions_df['gen_end_pos'] = isoform_end_positions_df['gen_end_pos']
         isoform_positions_df['enzyme'] = protease
 
-        overall_df = overall_df.append(isoform_positions_df)
+        overall_df = pd.concat([overall_df, isoform_positions_df])
 
     overall_df = overall_df.rename(columns={"pept_start_pos":"Protein start coordinate", "gen_start_pos":"Genomic start coordinate",
                                                 "pept_end_pos":"Protein end coordinate", "gen_end_pos": "Genomic end coordinate"})
@@ -137,7 +139,8 @@ def calculate_gen_coords(peptides_file, cds_files):
             if protkeys[0][0] == genkeys[0][0]:  # isoform
                 row_dict = {'isoform': protkeys[0][0], 'cds_id': protkeys[1],
                             'pept_start_pos': protkeys[0][1], 'gen_start_pos': int(genkeys[0][1])}
-                isoform_start_positions_df = isoform_start_positions_df.append(row_dict, ignore_index=True)
+                row_dict = pd.DataFrame([row_dict])
+                isoform_start_positions_df = pd.concat([isoform_start_positions_df, row_dict],ignore_index=True)
 
         ##############################################
         merged_prot = {}
@@ -162,7 +165,8 @@ def calculate_gen_coords(peptides_file, cds_files):
             if protkeys[0][0] == genkeys[0][0]:  # isoform
                 row_dict = {'isoform': protkeys[0][0], 'cds_id': protkeys[1],
                             'pept_end_pos': protkeys[0][1], 'gen_end_pos': int(genkeys[0][1])}
-                isoform_end_positions_df = isoform_end_positions_df.append(row_dict, ignore_index=True)
+                row_dict = pd.DataFrame([row_dict])
+                isoform_end_positions_df=pd.concat([isoform_end_positions_df, row_dict], ignore_index=True)
 
         # creating a new dataframe that combines the two
         isoform_positions_df = pd.DataFrame()
@@ -173,7 +177,7 @@ def calculate_gen_coords(peptides_file, cds_files):
         isoform_positions_df['gen_end_pos'] = isoform_end_positions_df['gen_end_pos']
         isoform_positions_df['enzyme'] = protease
 
-        overall_df = overall_df.append(isoform_positions_df)
+        overall_df = pd.concat([overall_df, isoform_positions_df])
 
     overall_df = overall_df.rename(columns={"pept_start_pos":"Protein start coordinate", "gen_start_pos":"Genomic start coordinate",
                                                 "pept_end_pos":"Protein end coordinate", "gen_end_pos": "Genomic end coordinate"})

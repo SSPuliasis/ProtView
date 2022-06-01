@@ -99,7 +99,7 @@ def create_miscleavage(input_file, mc, output_name):
             baby_df['peptide_size'] = baby_df['sequence'].apply(len)
             baby_df['peptide_start'] = start_positions
             baby_df['cleavage_position'] = cleavage_positions
-            master_df = master_df.append(baby_df)
+            master_df = pd.concat([master_df, baby_df])
 
     mol_weights = []
     iso_points = []
@@ -122,7 +122,7 @@ def create_parallel_digest(input_file, output_file, enzymes):
     for protease_name in enzymes:
         # print(protease_name, type(protease_name))
         if protease_name in input_file_enzymes:
-            parallel_df = parallel_df.append(filein.loc[(filein.enzyme == protease_name)])
+            parallel_df = pd.concat([parallel_df, filein.loc[(filein.enzyme == protease_name)]])
             newname +=('/'+protease_name)
             parallel_enzymes = newname[1:]
         elif protease_name not in input_file_enzymes:
@@ -133,7 +133,7 @@ def create_parallel_digest(input_file, output_file, enzymes):
     parallel_df.to_csv(output_file, index=False)
     del(filein)
     del(parallel_df)
-    print('The parallel enzyme combination for '+parallel_enzymes+' has been saved as '+output_file)
+    #print('The parallel enzyme combination for '+parallel_enzymes+' has been saved as '+output_file)
 
 # FILTERING BY LENGTH
 def filter_by_length(min_len, max_len, input_file, output_file):

@@ -21,7 +21,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
         length_dist_2 =pd.DataFrame()
         length_dist_2['enzyme'] =inputfile.enzyme
         length_dist_2['peptide_size']=inputfile.peptide_size
-        all_lengths_dist = all_lengths_dist.append(length_dist_2)
+        all_lengths_dist = pd.concat([all_lengths_dist, length_dist_2])
         for enzyme in sorted(set(xlist)):
             testname.append(name)
             testenzyme.append(enzyme)
@@ -135,7 +135,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
                     temp_table[['start', 'end']] = pd.DataFrame(temp_table.covered_regions.tolist(), index=temp_table.index)
                     temp_table['peptide_length'] = temp_table['end'] - temp_table['start'] + 1
                     temp_table = temp_table.drop(['start', 'end'], axis=1)
-                    coverage_table = coverage_table.append(temp_table, sort=True)
+                    coverage_table =pd.concat([coverage_table, temp_table], sort=True)
 
         else:
             temp_table = pd.DataFrame(columns=['input_file', 'enzyme', 'peptide_length', 'protein_length'])
@@ -146,7 +146,7 @@ def create_summary_table(unfiltered_rpg_files, filtered_rpg_files, fasta_files, 
             temp_table['enzyme'] = enzymes
             temp_table['protein_length'] = protein_len_sum
             temp_table['input_file'] = name
-            coverage_table = coverage_table.append(temp_table, sort=True)
+            coverage_table = pd.concat([coverage_table, temp_table],sort=True)
         coverage_table['coverage'] = (coverage_table['peptide_length'] / coverage_table['protein_length']) * 100
 
     coverage_summary_table = pd.DataFrame(coverage_table.groupby(['enzyme'], as_index=False)['peptide_length'].sum())
