@@ -27,6 +27,7 @@ def process_rpg_output(input_name):
     f = open(filein, 'r')
     filedata = f.read()
     f.close()
+    filedata = filedata.replace("pH>=", "pHover")
     filedata = filedata.replace(">", "\n>")
     f = open(filein, 'w')
     f.write(filedata)
