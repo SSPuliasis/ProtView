@@ -12,7 +12,7 @@ long_description='ProtView is designed to present statistics of in silico digest
 
 setup(
     name='protview',
-    version='1.0.5',
+    version='1.0.6',
     packages=['protview'],
     url='https://github.com/SSPuliasis/ProtView',
     license='GPL v3',
